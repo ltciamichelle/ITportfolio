@@ -7,6 +7,7 @@ interface Project {
   description: string;
   image: string;
   tags: string[];
+  team?: string;
 }
 
 interface Category {
@@ -21,37 +22,122 @@ interface Category {
   projects: Project[];
 }
 
+interface ExperienceHighlight {
+  category: string;
+  description: string;
+}
+
+interface Experience {
+  role: string;
+  company: string;
+  period: string;
+  type?: string;
+  highlights?: ExperienceHighlight[];
+  tools?: string[];
+}
+
+interface Activity {
+  title: string;
+  category: 'Bootcamp' | 'Competition';
+  organizer: string;
+  date: string;
+  award?: string;
+  description: string;
+  tags: string[];
+  icon: string;
+  image?: string;
+  bullets?: string[];
+  team?: string;
+}
+
+const ACTIVITIES: Activity[] = [
+  {
+    title: 'Arthavisi Business Case Competition',
+    category: 'Competition',
+    organizer: 'Future Forward Arthavisi (Investment Club)',
+    date: 'Jun 2025',
+    award: '🏆 3rd Place Winner',
+    team: 'Team Tarawangsa',
+    image: '/arthavisi.jpg',
+    description: 'Awarded 3rd Place Winner with Team Tarawangsa in the national Future Forward Arthavisi 2025 business case competition themed "Driving Competitiveness Through Innovation".',
+    bullets: [
+      'Represented Team Tarawangsa in national business case competition',
+      'Formulated competitive market growth strategies & business innovation roadmaps',
+      'Awarded 3rd Place Winner trophy and official certificate on 26 June 2025'
+    ],
+    tags: ['Business Case', 'Strategic Analysis', 'Innovation', 'Team Tarawangsa'],
+    icon: '🏆'
+  },
+  {
+    title: 'SxCelerate Mentee Start-Up Path',
+    category: 'Bootcamp',
+    organizer: 'StudentsxCEOs Jakarta Chapter',
+    date: 'Jul 2025',
+    award: '⭐ Top 50 of 300+ Applicants',
+    image: '/sxc.jpg',
+    description: 'Selected mentee for the startup acceleration path, collaborating on business plan analysis and digital SME venture creation.',
+    bullets: [
+      'Selected as top 50 of 300+ applicants',
+      'Collaborated in a team of 5 on business plan and real business case analysis to explore market growth strategies',
+      'Co-created “BizGrow” a sales tracking app concept for SMEs as our capstone project',
+      'Guided by mentors from top company and big 4 consultants'
+    ],
+    tags: ['Start-Up Incubation', 'BizGrow SME App', 'Market Growth', 'Consulting'],
+    icon: '🚀'
+  }
+];
+
+const EXPERIENCES: Experience[] = [
+  {
+    role: 'Growth and Marketing Intern',
+    company: 'ILATech Indonesia',
+    type: 'Internship',
+    period: 'Jul 2026 - Sep 2026',
+    highlights: [
+      {
+        category: 'SEO Optimization & Web Traffic',
+        description: 'Directed targeted search initiatives that yielded consecutive monthly Google click growth and improved average search positioning by 1.7 ranks in September. Leveraged high-intent educational queries to capture a 47.5% increase in website active users during the August peak and drove a 64.5% month-over-month view increase for top-performing product comparison pages.'
+      },
+      {
+        category: 'Social Media',
+        description: 'Drove 330 total content interactions across August and September through a targeted video strategy, yielding a peak 153.1% month-over-month engagement surge.'
+      }
+    ],
+    tools: ['Meta Business Suite', 'Google Analytics', 'Google Search Console']
+  },
+  {
+    role: 'Creative Designer Freelance',
+    company: 'Sinar Mas Land',
+    period: 'Mar 2026 - Sep 2026',
+  }
+];
+
 const CATEGORIES: Category[] = [
   {
     id: 'ui-ux',
     title: 'UI/UX Design',
     tag: 'UI/UX',
     icon: '🎨',
-    count: '3 Projects',
-    coverImage: 'https://images.unsplash.com/photo-1618761714954-0b8cd0026356?auto=format&fit=crop&q=80&w=800',
-    summary: 'Crafting intuitive user journeys, wireframes, and high-fidelity interactive prototypes focused on seamless human-centered experiences.',
-    skills: ['Figma', 'User Research', 'Wireframing', 'Prototyping', 'Design Systems'],
+    count: '2 Projects',
+    coverImage: '/MOODAL.jpg',
+    summary: 'Crafting intuitive user journeys, wireframes, and high-fidelity interactive prototypes designed to solve real business challenges for Indonesian MSMEs.',
+    skills: ['Figma', 'User Research', 'Wireframing', 'Prototyping', 'Mobile App Design', 'Usability Testing'],
     projects: [
       {
-        title: 'Fintech Mobile App Redesign',
-        role: 'User Interface & Experience',
-        description: 'Complete redesign of mobile banking flows, simplifying wallet onboarding and transaction tracking with clear micro-interactions.',
-        image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80&w=800',
-        tags: ['Figma', 'Mobile App', 'Fintech', 'Design System']
+        title: 'MOODAL',
+        role: 'Mobile UI/UX Design',
+        description: 'Bantu Bisnis Sesuai Kebutuhan-mu — Financial and business management mobile app for MSMEs featuring cash flow monitoring, automated receipt scanning, smart business analytics, and an interactive business assistant.',
+        image: '/MOODAL.jpg',
+        tags: ['Figma', 'Mobile App', 'Fintech / MSME', 'User Research'],
+        team: 'Leticia Michelle Purba, Carmen Jessalyn Tjong Malik, Kathleen Klavinka Kurniawan'
       },
       {
-        title: 'EduLearn Student Portal',
-        role: 'Product UX Design',
-        description: 'Comprehensive web portal designed for university students to track course progress, schedules, and assignment submissions seamlessly.',
-        image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&q=80&w=800',
-        tags: ['Web App', 'Accessibility', 'User Journey', 'Wireframing']
-      },
-      {
-        title: 'EcoMarket Checkout Flow',
-        role: 'E-commerce UI Design',
-        description: 'Optimized checkout experience focusing on reducing cart abandonment rates through clear progress steps and transparent order summaries.',
-        image: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&q=80&w=800',
-        tags: ['E-Commerce', 'Usability Testing', 'Prototyping']
+        title: 'KayuKita',
+        role: 'Mobile UI/UX Design',
+        description: 'Mendorong UMKM Sektor Kerajinan & Warisan Bangsa — Mobile marketplace platform connecting local Indonesian woodcraft artisans with customers through custom orders, artisan discovery, wood scanning, and maintenance guides.',
+        image: '/Kayukita.jpg',
+        tags: ['Figma', 'Mobile App', 'Marketplace / UMKM', 'Design System'],
+        team: 'Leticia Michelle Purba, Carmen Jessalyn Tjong Malik, Kathleen Klavinka Kurniawan (UCCD_SixSeven)'
       }
     ]
   },
@@ -125,14 +211,21 @@ const CATEGORIES: Category[] = [
 
 function App() {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+  const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
+  const [activeModalActivity, setActiveModalActivity] = useState<Activity | null>(null);
+  const [activityFilter, setActivityFilter] = useState<'All' | 'Bootcamp' | 'Competition'>('All');
 
   const selectedCategory = CATEGORIES.find((cat) => cat.id === selectedCategoryId);
+  const filteredActivities = activityFilter === 'All'
+    ? ACTIVITIES
+    : ACTIVITIES.filter((act) => act.category === activityFilter);
 
   return (
     <div className="app">
       {/* Background Gradients */}
       <div className="bg-gradient bg-top-right"></div>
       <div className="bg-gradient bg-bottom-left"></div>
+      <div className="bg-gradient bg-mid-glow"></div>
 
       <div className="container">
         {/* Navbar */}
@@ -143,6 +236,7 @@ function App() {
           <div className="nav-links">
             <a href="#categories">Categories</a>
             <a href="#experience">Experience</a>
+            <a href="#activities">Activities</a>
             <a href="#about">About</a>
             <a href="#contact">Contact</a>
           </div>
@@ -179,15 +273,6 @@ function App() {
           <div className="hero-visual">
             <div className="profile-image-container">
               <img src="/fotomici.png" alt="Leticia Michelle" className="profile-image" />
-              <div className="availability-card glass-card">
-                <div className="status">
-                  <span className="status-dot"></span> Available for projects
-                </div>
-                <p>Always open to exciting opportunities in <strong>UI/UX & Tech.</strong></p>
-                <button className="btn-text">
-                  <span className="icon-circle">↓</span> Download CV
-                </button>
-              </div>
             </div>
           </div>
         </section>
@@ -235,7 +320,14 @@ function App() {
               {/* Projects Grid for Selected Category */}
               <div className="projects-grid">
                 {selectedCategory.projects.map((project, idx) => (
-                  <div className="project-card" key={idx}>
+                  <div
+                    className="project-card"
+                    key={idx}
+                    onClick={() => setActiveModalProject(project)}
+                    role="button"
+                    tabIndex={0}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <div className="project-image-container">
                       <img src={project.image} alt={project.title} />
                       <span className="tag glass-tag">{selectedCategory.tag}</span>
@@ -246,12 +338,23 @@ function App() {
                         <p className="project-role">{project.role}</p>
                       </div>
                       <p className="project-description">{project.description}</p>
+                      {project.team && (
+                        <p className="project-team">
+                          <strong>Team:</strong> {project.team}
+                        </p>
+                      )}
                       <div className="project-tags">
                         {project.tags.map((tag, tIdx) => (
                           <span key={tIdx} className="skill-pill">{tag}</span>
                         ))}
                       </div>
-                      <button className="project-explore-btn">
+                      <button
+                        className="project-explore-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveModalProject(project);
+                        }}
+                      >
                         View Details <span className="arrow">↗</span>
                       </button>
                     </div>
@@ -319,32 +422,157 @@ function App() {
           </div>
           
           <div className="timeline-horizontal">
-            <div className="timeline-item-h">
-              <div className="timeline-marker-h"></div>
-              <div className="timeline-content-h">
-                <span className="timeline-date-h">2024 - Present</span>
-                <h3>UI/UX Designer</h3>
-                <p>University Tech Organization</p>
+            {EXPERIENCES.map((exp, idx) => (
+              <div className="timeline-item-h" key={idx}>
+                <div className="timeline-marker-h"></div>
+                <div className="timeline-content-h">
+                  <span className="timeline-date-h">{exp.period}</span>
+                  <h3>{exp.role}</h3>
+                  <p className="timeline-company-h">{exp.company}{exp.type ? ` · ${exp.type}` : ''}</p>
+
+                  {exp.highlights && exp.highlights.length > 0 && (
+                    <div className="timeline-highlights">
+                      {exp.highlights.map((item, hIdx) => (
+                        <div key={hIdx} className="timeline-highlight-item">
+                          <h4 className="timeline-highlight-title">
+                            <span className="timeline-highlight-bullet">▸</span> {item.category}
+                          </h4>
+                          <p className="timeline-highlight-desc">{item.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {exp.tools && exp.tools.length > 0 && (
+                    <div className="timeline-tools-wrap">
+                      <span className="timeline-tools-label">Tools used</span>
+                      <div className="timeline-tools-list">
+                        {exp.tools.map((tool, tIdx) => (
+                          <span key={tIdx} className="skill-pill">{tool}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Activities (Bootcamps & Competitions) */}
+        <section className="activities" id="activities">
+          <div className="work-header">
+            <div>
+              <span className="section-label">GROWTH & ACHIEVEMENTS</span>
+              <h2>Activities & Competitions</h2>
+              <p className="section-desc">
+                Hackathons, design championships, and specialized bootcamps where I hone my technical and design capabilities.
+              </p>
             </div>
-            
-            <div className="timeline-item-h">
-              <div className="timeline-marker-h"></div>
-              <div className="timeline-content-h">
-                <span className="timeline-date-h">2023 - 2024</span>
-                <h3>Front-End Developer Intern</h3>
-                <p>Startup Digital Agency</p>
+          </div>
+
+          <div className="activities-tabs">
+            <button
+              className={`activity-tab-btn ${activityFilter === 'All' ? 'active' : ''}`}
+              onClick={() => setActivityFilter('All')}
+            >
+              <span>⚡</span> All Activities ({ACTIVITIES.length})
+            </button>
+            <button
+              className={`activity-tab-btn ${activityFilter === 'Competition' ? 'active' : ''}`}
+              onClick={() => setActivityFilter('Competition')}
+            >
+              <span>🏆</span> Competitions ({ACTIVITIES.filter((a) => a.category === 'Competition').length})
+            </button>
+            <button
+              className={`activity-tab-btn ${activityFilter === 'Bootcamp' ? 'active' : ''}`}
+              onClick={() => setActivityFilter('Bootcamp')}
+            >
+              <span>🎓</span> Bootcamps ({ACTIVITIES.filter((a) => a.category === 'Bootcamp').length})
+            </button>
+          </div>
+
+          <div className="activities-grid">
+            {filteredActivities.map((activity, idx) => (
+              <div
+                className="activity-card"
+                key={idx}
+                onClick={() => activity.image && setActiveModalActivity(activity)}
+                style={{ cursor: activity.image ? 'pointer' : 'default' }}
+              >
+                {activity.image && (
+                  <div
+                    className="activity-card-image-wrap"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveModalActivity(activity);
+                    }}
+                  >
+                    <img src={activity.image} alt={activity.title} className="activity-card-image" />
+                    <span className="activity-card-image-badge">🔍 View Clear Image</span>
+                  </div>
+                )}
+
+                <div className="activity-card-header">
+                  <div className="activity-icon-badge">
+                    <span>{activity.icon}</span>
+                  </div>
+                  <div className="activity-badges">
+                    <span className={`activity-type-pill ${activity.category.toLowerCase()}`}>
+                      {activity.category}
+                    </span>
+                    {activity.award && (
+                      <span className="activity-award-pill">
+                        {activity.award}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <h3 className="activity-title">{activity.title}</h3>
+                <div className="activity-meta">
+                  <span>{activity.organizer}</span>
+                  <span className="dot-sep">•</span>
+                  <span>{activity.date}</span>
+                </div>
+
+                {activity.team && (
+                  <div className="activity-team-row">
+                    <span>👥</span>
+                    <span><strong>Team:</strong> {activity.team}</span>
+                  </div>
+                )}
+
+                <p className="activity-desc">{activity.description}</p>
+
+                {activity.bullets && (
+                  <ul className="activity-bullets">
+                    {activity.bullets.map((bullet, bIdx) => (
+                      <li key={bIdx}>{bullet}</li>
+                    ))}
+                  </ul>
+                )}
+
+                <div className="activity-tags">
+                  {activity.tags.map((tag, tIdx) => (
+                    <span key={tIdx} className="skill-pill">{tag}</span>
+                  ))}
+                </div>
+
+                {activity.image && (
+                  <button
+                    className="project-explore-btn"
+                    style={{ marginTop: '14px' }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveModalActivity(activity);
+                    }}
+                  >
+                    View Clear Photo / Certificate <span className="arrow">↗</span>
+                  </button>
+                )}
               </div>
-            </div>
-            
-            <div className="timeline-item-h">
-              <div className="timeline-marker-h"></div>
-              <div className="timeline-content-h">
-                <span className="timeline-date-h">2023</span>
-                <h3>Business Analyst Project</h3>
-                <p>Information Systems Coursework</p>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
@@ -370,16 +598,146 @@ function App() {
             something amazing together.
           </h2>
           <div className="contact-info">
-            <p><strong>Email:</strong> leticiamichelle@example.com</p>
+            <p><strong>Email:</strong> leticiamici04@gmail.com</p>
             <p><strong>WhatsApp:</strong> +62 812-3456-7890</p>
           </div>
           <div className="social-links">
             <a href="https://linkedin.com" target="_blank" rel="noreferrer" title="LinkedIn">in</a>
-            <a href="mailto:leticiamichelle@example.com" title="Email">✉</a>
+            <a href="mailto:leticiamici04@gmail.com" title="Email">✉</a>
             <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" title="WhatsApp">WA</a>
           </div>
         </footer>
       </div>
+
+      {/* Project Detail Modal */}
+      {activeModalProject && (
+        <div
+          className="modal-backdrop"
+          onClick={() => setActiveModalProject(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="modal-close-btn"
+              onClick={() => setActiveModalProject(null)}
+              aria-label="Close Modal"
+            >
+              ✕
+            </button>
+
+            <div className="modal-image-wrap">
+              <img
+                src={activeModalProject.image}
+                alt={activeModalProject.title}
+                className="modal-image"
+              />
+            </div>
+
+            <div className="modal-body">
+              <div className="modal-title-row">
+                <div>
+                  <span className="modal-badge">{activeModalProject.role}</span>
+                  <h2>{activeModalProject.title}</h2>
+                </div>
+              </div>
+
+              {activeModalProject.team && (
+                <div className="modal-team-box">
+                  <span className="team-icon">👥</span>
+                  <div>
+                    <strong>Project Team:</strong>
+                    <p>{activeModalProject.team}</p>
+                  </div>
+                </div>
+              )}
+
+              <p className="modal-desc">{activeModalProject.description}</p>
+
+              <div className="modal-skills">
+                {activeModalProject.tags.map((tag, idx) => (
+                  <span key={idx} className="skill-pill">{tag}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Activity Detail Modal */}
+      {activeModalActivity && (
+        <div
+          className="modal-backdrop"
+          onClick={() => setActiveModalActivity(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="modal-close-btn"
+              onClick={() => setActiveModalActivity(null)}
+              aria-label="Close Modal"
+            >
+              ✕
+            </button>
+
+            {activeModalActivity.image && (
+              <div className="modal-image-wrap">
+                <img
+                  src={activeModalActivity.image}
+                  alt={activeModalActivity.title}
+                  className="modal-image"
+                />
+              </div>
+            )}
+
+            <div className="modal-body">
+              <div className="modal-title-row">
+                <div>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '8px' }}>
+                    <span className="modal-badge">{activeModalActivity.category}</span>
+                    {activeModalActivity.award && (
+                      <span className="activity-award-pill" style={{ alignSelf: 'center' }}>
+                        {activeModalActivity.award}
+                      </span>
+                    )}
+                  </div>
+                  <h2>{activeModalActivity.title}</h2>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '4px' }}>
+                    {activeModalActivity.organizer} • {activeModalActivity.date}
+                  </p>
+                </div>
+              </div>
+
+              {activeModalActivity.team && (
+                <div className="modal-team-box">
+                  <span className="team-icon">👥</span>
+                  <div>
+                    <strong>Team:</strong>
+                    <p>{activeModalActivity.team}</p>
+                  </div>
+                </div>
+              )}
+
+              <p className="modal-desc">{activeModalActivity.description}</p>
+
+              {activeModalActivity.bullets && (
+                <ul className="activity-bullets" style={{ margin: '8px 0' }}>
+                  {activeModalActivity.bullets.map((bullet, idx) => (
+                    <li key={idx}>{bullet}</li>
+                  ))}
+                </ul>
+              )}
+
+              <div className="modal-skills">
+                {activeModalActivity.tags.map((tag, idx) => (
+                  <span key={idx} className="skill-pill">{tag}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
