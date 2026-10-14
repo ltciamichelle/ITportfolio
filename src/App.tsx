@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './index.css';
 
 interface Project {
@@ -226,6 +226,107 @@ function App() {
   const [activeModalActivity, setActiveModalActivity] = useState<Activity | null>(null);
   const [activityFilter, setActivityFilter] = useState<'All' | 'Bootcamp' | 'Competition'>('All');
 
+  // Smooth scroll and active section states
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [activeSection, setActiveSection] = useState('about');
+
+  // Timeline horizontal drag & controls
+  const timelineRef = useRef<HTMLDivElement | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartX = useRef(0);
+  const dragScrollLeft = useRef(0);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const winScroll = window.scrollY || document.documentElement.scrollTop;
+          const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolledPercent = docHeight > 0 ? (winScroll / docHeight) * 100 : 0;
+          setScrollProgress(Math.min(100, Math.max(0, scrolledPercent)));
+          setIsScrolled(winScroll > 30);
+          setShowBackToTop(winScroll > 320);
+
+          // Detect active section based on scroll offset
+          const sections = ['about', 'categories', 'experience', 'activities', 'contact'];
+          const triggerPoint = winScroll + 160;
+          for (let i = sections.length - 1; i >= 0; i--) {
+            const el = document.getElementById(sections[i]);
+            if (el && triggerPoint >= el.offsetTop) {
+              setActiveSection(sections[i]);
+              break;
+            }
+          }
+
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    const element = document.getElementById(targetId);
+    if (element) {
+      const navOffset = 84;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - navOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      window.history.pushState(null, '', `#${targetId}`);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  const scrollTimeline = (direction: 'left' | 'right') => {
+    if (!timelineRef.current) return;
+    const scrollAmount = 400;
+    timelineRef.current.scrollBy({
+      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth'
+    });
+  };
+
+  const handleTimelineMouseDown = (e: React.MouseEvent) => {
+    if (!timelineRef.current) return;
+    setIsDragging(true);
+    dragStartX.current = e.pageX - timelineRef.current.offsetLeft;
+    dragScrollLeft.current = timelineRef.current.scrollLeft;
+  };
+
+  const handleTimelineMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !timelineRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - timelineRef.current.offsetLeft;
+    const walk = (x - dragStartX.current) * 1.5;
+    timelineRef.current.scrollLeft = dragScrollLeft.current - walk;
+  };
+
+  const handleTimelineMouseUpOrLeave = () => {
+    setIsDragging(false);
+  };
+
   const selectedCategory = CATEGORIES.find((cat) => cat.id === selectedCategoryId);
   const filteredActivities = activityFilter === 'All'
     ? ACTIVITIES
@@ -238,26 +339,80 @@ function App() {
       <div className="bg-gradient bg-bottom-left"></div>
       <div className="bg-gradient bg-mid-glow"></div>
 
-      <div className="container">
-        {/* Navbar */}
-        <nav className="navbar">
-          <div className="logo">
-            LM<span className="dot">.</span>
-          </div>
-          <div className="nav-links">
-            <a href="#categories">Categories</a>
-            <a href="#experience">Experience</a>
-            <a href="#activities">Activities</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-          </div>
-          <a href="#contact" className="btn-secondary" style={{ textDecoration: 'none' }}>
-            Let's talk <span className="arrow">↗</span>
-          </a>
-        </nav>
+      {/* Top Scroll Progress Bar */}
+      <div
+        className="scroll-progress-bar"
+        style={{ transform: `scaleX(${scrollProgress / 100})` }}
+        role="progressbar"
+        aria-valuenow={Math.round(scrollProgress)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      />
 
-        {/* Hero */}
-        <section className="hero">
+      {/* Sticky Floating Glass Navbar */}
+      <header className={`navbar-header ${isScrolled ? 'scrolled' : ''}`}>
+        <div className="container">
+          <nav className="navbar">
+            <a
+              href="#about"
+              className="logo"
+              onClick={(e) => handleNavClick(e, 'about')}
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              LM<span className="dot">.</span>
+            </a>
+            <div className="nav-links">
+              <a
+                href="#categories"
+                className={activeSection === 'categories' ? 'active' : ''}
+                onClick={(e) => handleNavClick(e, 'categories')}
+              >
+                Categories
+              </a>
+              <a
+                href="#experience"
+                className={activeSection === 'experience' ? 'active' : ''}
+                onClick={(e) => handleNavClick(e, 'experience')}
+              >
+                Experience
+              </a>
+              <a
+                href="#activities"
+                className={activeSection === 'activities' ? 'active' : ''}
+                onClick={(e) => handleNavClick(e, 'activities')}
+              >
+                Activities
+              </a>
+              <a
+                href="#about"
+                className={activeSection === 'about' ? 'active' : ''}
+                onClick={(e) => handleNavClick(e, 'about')}
+              >
+                About
+              </a>
+              <a
+                href="#contact"
+                className={activeSection === 'contact' ? 'active' : ''}
+                onClick={(e) => handleNavClick(e, 'contact')}
+              >
+                Contact
+              </a>
+            </div>
+            <a
+              href="#contact"
+              className="btn-secondary"
+              onClick={(e) => handleNavClick(e, 'contact')}
+              style={{ textDecoration: 'none' }}
+            >
+              Let's talk <span className="arrow">↗</span>
+            </a>
+          </nav>
+        </div>
+      </header>
+
+      <div className="container">
+        {/* Hero Section */}
+        <section className="hero" id="about">
           <div className="hero-content">
             <h1>
               Hi, I'm<br />
@@ -272,10 +427,20 @@ function App() {
             </p>
 
             <div className="hero-actions">
-              <a href="#categories" className="btn-primary" style={{ textDecoration: 'none' }}>
+              <a
+                href="#categories"
+                className="btn-primary"
+                onClick={(e) => handleNavClick(e, 'categories')}
+                style={{ textDecoration: 'none' }}
+              >
                 Explore Categories <span className="arrow">→</span>
               </a>
-              <a href="#experience" className="btn-outline" style={{ textDecoration: 'none' }}>
+              <a
+                href="#experience"
+                className="btn-outline"
+                onClick={(e) => handleNavClick(e, 'experience')}
+                style={{ textDecoration: 'none' }}
+              >
                 My journey <span style={{ marginLeft: '4px' }}>🚀</span>
               </a>
             </div>
@@ -454,9 +619,34 @@ function App() {
               <span className="section-label">CAREER JOURNEY</span>
               <h2>Work Experience</h2>
             </div>
+            <div className="timeline-nav-group">
+              <button
+                className="timeline-arrow-btn"
+                onClick={() => scrollTimeline('left')}
+                aria-label="Scroll experience left"
+                title="Scroll left"
+              >
+                ←
+              </button>
+              <button
+                className="timeline-arrow-btn"
+                onClick={() => scrollTimeline('right')}
+                aria-label="Scroll experience right"
+                title="Scroll right"
+              >
+                →
+              </button>
+            </div>
           </div>
 
-          <div className="timeline-horizontal">
+          <div
+            className={`timeline-horizontal ${isDragging ? 'is-dragging' : ''}`}
+            ref={timelineRef}
+            onMouseDown={handleTimelineMouseDown}
+            onMouseMove={handleTimelineMouseMove}
+            onMouseUp={handleTimelineMouseUpOrLeave}
+            onMouseLeave={handleTimelineMouseUpOrLeave}
+          >
             {EXPERIENCES.map((exp, idx) => (
               <div className="timeline-item-h" key={idx}>
                 <div className="timeline-marker-h"></div>
@@ -799,6 +989,16 @@ function App() {
           </div>
         </div>
       )}
+
+      {/* Floating Back to Top Button */}
+      <button
+        className={`back-to-top-btn ${showBackToTop ? 'visible' : ''}`}
+        onClick={scrollToTop}
+        aria-label="Back to top"
+        title="Scroll to top"
+      >
+        <span className="back-to-top-arrow">↑</span>
+      </button>
     </div>
   );
 }
