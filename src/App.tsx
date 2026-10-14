@@ -8,6 +8,8 @@ interface Project {
   image: string;
   tags: string[];
   team?: string;
+  githubUrl?: string;
+  liveUrl?: string;
 }
 
 interface Category {
@@ -146,11 +148,20 @@ const CATEGORIES: Category[] = [
     title: 'Front-End Development',
     tag: 'Front-End',
     icon: '💻',
-    count: '3 Projects',
-    coverImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
+    count: '4 Projects',
+    coverImage: '/Real-Time ISS Tracking Dashboard.png',
     summary: 'Transforming designs into responsive, robust web applications using modern JavaScript/TypeScript, component architecture, and clean code.',
-    skills: ['React', 'TypeScript', 'Tailwind CSS', 'HTML5 / CSS3', 'REST APIs'],
+    skills: ['HTML5 / CSS3', 'JavaScript', 'React', 'Leaflet.js', 'REST APIs'],
     projects: [
+      {
+        title: 'ISS Live Tracker',
+        role: 'Real-Time Web Application',
+        description: 'A real-time web app that shows where the International Space Station is right now. It fetches live coordinates from a public API every 5 seconds, plots them on a world map, and draws the station’s recent path. I built it to practice real-time data handling, API integration, and turning raw numbers into a simple visual. Built with HTML, CSS, JavaScript, and Leaflet, using an AI coding agent to speed up development.',
+        image: '/ISS Tracker.png',
+        tags: ['HTML5', 'CSS3', 'JavaScript', 'Leaflet.js', 'REST API', 'Real-Time Data'],
+        githubUrl: 'https://github.com/ltciamichelle/ISS-Live-Tracker',
+        liveUrl: 'https://ltciamichelle.github.io/ISS-Live-Tracker/'
+      },
       {
         title: 'Interactive Analytics Dashboard',
         role: 'React & Data Visualization',
@@ -259,7 +270,7 @@ function App() {
             <p className="description">
               I specialize in bridging business needs with seamless digital experiences through <strong>UI/UX Design</strong>, <strong>Front-End Development</strong>, and <strong>Business Analysis</strong>.
             </p>
-            
+
             <div className="hero-actions">
               <a href="#categories" className="btn-primary" style={{ textDecoration: 'none' }}>
                 Explore Categories <span className="arrow">→</span>
@@ -348,15 +359,39 @@ function App() {
                           <span key={tIdx} className="skill-pill">{tag}</span>
                         ))}
                       </div>
-                      <button
-                        className="project-explore-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setActiveModalProject(project);
-                        }}
-                      >
-                        View Details <span className="arrow">↗</span>
-                      </button>
+                      <div className="project-actions">
+                        <button
+                          className="project-explore-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveModalProject(project);
+                          }}
+                        >
+                          View Details <span className="arrow">↗</span>
+                        </button>
+                        {project.liveUrl && (
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project-action-link primary"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            Live Demo <span className="arrow">↗</span>
+                          </a>
+                        )}
+                        {project.githubUrl && (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project-action-link github"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            GitHub <span className="arrow">↗</span>
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -420,7 +455,7 @@ function App() {
               <h2>Work Experience</h2>
             </div>
           </div>
-          
+
           <div className="timeline-horizontal">
             {EXPERIENCES.map((exp, idx) => (
               <div className="timeline-item-h" key={idx}>
@@ -602,6 +637,7 @@ function App() {
             <p><strong>WhatsApp:</strong> +62 812-3456-7890</p>
           </div>
           <div className="social-links">
+            <a href="https://github.com/ltciamichelle" target="_blank" rel="noreferrer" title="GitHub">gh</a>
             <a href="https://linkedin.com" target="_blank" rel="noreferrer" title="LinkedIn">in</a>
             <a href="mailto:leticiamici04@gmail.com" title="Email">✉</a>
             <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" title="WhatsApp">WA</a>
@@ -641,6 +677,31 @@ function App() {
                   <h2>{activeModalProject.title}</h2>
                 </div>
               </div>
+
+              {(activeModalProject.liveUrl || activeModalProject.githubUrl) && (
+                <div className="modal-links-row">
+                  {activeModalProject.liveUrl && (
+                    <a
+                      href={activeModalProject.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="project-action-link primary modal-action-btn"
+                    >
+                      <span>🌐</span> See the Tracker <span className="arrow">↗</span>
+                    </a>
+                  )}
+                  {activeModalProject.githubUrl && (
+                    <a
+                      href={activeModalProject.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="modal-action-btn github"
+                    >
+                      <span>💻</span> GitHub Repository <span className="arrow">↗</span>
+                    </a>
+                  )}
+                </div>
+              )}
 
               {activeModalProject.team && (
                 <div className="modal-team-box">
