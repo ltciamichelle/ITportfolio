@@ -799,14 +799,52 @@ function App() {
             something amazing together.
           </h2>
           <div className="contact-info">
-            <p><strong>Email:</strong> leticiamici04@gmail.com</p>
-            <p><strong>WhatsApp:</strong> +62 812-3456-7890</p>
+            <p>
+              <strong>Email:</strong>{' '}
+              <a href="mailto:leticiamici04@gmail.com">leticiamici04@gmail.com</a>
+            </p>
+            <p>
+              <strong>WhatsApp:</strong>{' '}
+              <a href="https://wa.me/6281319459356" target="_blank" rel="noreferrer">
+                081319459356
+              </a>
+            </p>
           </div>
           <div className="social-links">
-            <a href="https://github.com/ltciamichelle" target="_blank" rel="noreferrer" title="GitHub">gh</a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" title="LinkedIn">in</a>
-            <a href="mailto:leticiamici04@gmail.com" title="Email">✉</a>
-            <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" title="WhatsApp">WA</a>
+            <a
+              href="https://github.com/ltciamichelle"
+              target="_blank"
+              rel="noreferrer"
+              title="GitHub"
+              aria-label="GitHub"
+            >
+              gh
+            </a>
+            <a
+              href="https://www.linkedin.com/in/leticia-michelle-purba-516628215"
+              target="_blank"
+              rel="noreferrer"
+              title="LinkedIn"
+              aria-label="LinkedIn"
+            >
+              in
+            </a>
+            <a
+              href="mailto:leticiamici04@gmail.com"
+              title="Email"
+              aria-label="Email"
+            >
+              ✉
+            </a>
+            <a
+              href="https://wa.me/6281319459356"
+              target="_blank"
+              rel="noreferrer"
+              title="WhatsApp"
+              aria-label="WhatsApp"
+            >
+              WA
+            </a>
           </div>
         </footer>
       </div>
