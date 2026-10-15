@@ -27,7 +27,8 @@ interface Category {
 
 interface ExperienceHighlight {
   category: string;
-  description: string;
+  description?: string;
+  bullets?: string[];
 }
 
 interface Experience {
@@ -98,12 +99,20 @@ const EXPERIENCES: Experience[] = [
     period: 'Jul 2026 - Sep 2026',
     highlights: [
       {
-        category: 'SEO Optimization & Web Traffic',
-        description: 'Directed targeted search initiatives that yielded consecutive monthly Google click growth and improved average search positioning by 1.7 ranks in September. Leveraged high-intent educational queries to capture a 47.5% increase in website active users during the August peak and drove a 64.5% month-over-month view increase for top-performing product comparison pages.'
+        category: 'SEO and Website Traffic',
+        bullets: [
+          'Grew Google clicks for consecutive months',
+          'Improved average search position by 1.7 ranks in September',
+          'Raised website active users by 47.5% at the August peak',
+          'Increased views on top product comparison pages by 64.5% month over month'
+        ]
       },
       {
         category: 'Social Media',
-        description: 'Drove 330 total content interactions across August and September through a targeted video strategy, yielding a peak 153.1% month-over-month engagement surge.'
+        bullets: [
+          'Earned 330 content interactions across August and September',
+          'Reached a 153.1% month-over-month engagement jump with a video-focused strategy'
+        ]
       }
     ],
     tools: ['Meta Business Suite', 'Google Analytics', 'Google Search Console']
@@ -124,14 +133,14 @@ const CATEGORIES: Category[] = [
     count: '2 Projects',
     coverImage: '/MOODAL.jpg',
     summary: 'Crafting intuitive user journeys, wireframes, and high-fidelity interactive prototypes designed to solve real business challenges for Indonesian MSMEs.',
-    skills: ['Figma', 'User Research', 'Wireframing', 'Prototyping', 'Mobile App Design', 'Usability Testing'],
+    skills: ['Figma', 'UX Research', 'Maze', 'Design System', 'Agile Methodology'],
     projects: [
       {
         title: 'MOODAL',
         role: 'Mobile UI/UX Design',
         description: 'Bantu Bisnis Sesuai Kebutuhan-mu — Financial and business management mobile app for MSMEs featuring cash flow monitoring, automated receipt scanning, smart business analytics, and an interactive business assistant.',
         image: '/MOODAL.jpg',
-        tags: ['Figma', 'Mobile App', 'Fintech / MSME', 'User Research'],
+        tags: ['Figma', 'UX Research', 'Maze', 'Design System', 'Agile Methodology'],
         team: 'Leticia Michelle Purba, Carmen Jessalyn Tjong Malik, Kathleen Klavinka Kurniawan'
       },
       {
@@ -139,7 +148,7 @@ const CATEGORIES: Category[] = [
         role: 'Mobile UI/UX Design',
         description: 'Mendorong UMKM Sektor Kerajinan & Warisan Bangsa — Mobile marketplace platform connecting local Indonesian woodcraft artisans with customers through custom orders, artisan discovery, wood scanning, and maintenance guides.',
         image: '/Kayukita.jpg',
-        tags: ['Figma', 'Mobile App', 'Marketplace / UMKM', 'Design System'],
+        tags: ['Figma', 'UX Research', 'Maze', 'Design System', 'Agile Methodology'],
         team: 'Leticia Michelle Purba, Carmen Jessalyn Tjong Malik, Kathleen Klavinka Kurniawan (UCCD_SixSeven)'
       }
     ]
@@ -635,7 +644,14 @@ function App() {
                           <h4 className="timeline-highlight-title">
                             <span className="timeline-highlight-bullet">▸</span> {item.category}
                           </h4>
-                          <p className="timeline-highlight-desc">{item.description}</p>
+                          {item.description && <p className="timeline-highlight-desc">{item.description}</p>}
+                          {item.bullets && (
+                            <ul className="timeline-highlight-bullets">
+                              {item.bullets.map((bullet, bIdx) => (
+                                <li key={bIdx}>{bullet}</li>
+                              ))}
+                            </ul>
+                          )}
                         </div>
                       ))}
                     </div>
