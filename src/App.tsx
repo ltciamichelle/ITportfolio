@@ -10,6 +10,7 @@ interface Project {
   team?: string;
   githubUrl?: string;
   liveUrl?: string;
+  bullets?: string[];
 }
 
 interface Category {
@@ -190,11 +191,24 @@ const CATEGORIES: Category[] = [
     title: 'Business Analysis',
     tag: 'Business Analysis',
     icon: '📊',
-    count: '3 Projects',
-    coverImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800',
-    summary: 'Bridging business goals and technology through process modeling, requirement specifications (SRS), BPMN diagrams, and system flow analysis.',
-    skills: ['BPMN 2.0', 'System Analysis', 'SRS Documentation', 'Process Mapping', 'Use Case Modeling'],
+    count: '4 Projects',
+    coverImage: '/Apple analysis.jpg',
+    summary: 'Bridging business goals and technology through financial performance dashboards, process modeling, requirement specifications (SRS), BPMN diagrams, and data-driven insights.',
+    skills: ['Financial Analysis', 'BPMN 2.0', 'System Analysis', 'SRS Documentation', 'Process Mapping', 'SEC 10-K Filings'],
     projects: [
+      {
+        title: 'Apple Inc. Financial Health Dashboard',
+        role: 'Financial Performance & SEC 10-K Analysis',
+        description: 'Comprehensive 15-year financial performance dashboard (FY2009–FY2025) analyzing Apple Inc. based on official SEC 10-K filings. Evaluates long-term revenue growth ($43B to $416B), net profit trajectory ($8B to $112B), gross margin expansion to 46.9%, and capital structure shifts.',
+        bullets: [
+          'Strong Long-Term Growth: Revenue grew from $43B (FY2009) to $416B (FY2025) at ~15% per year, while net income surged from $8B to $112B.',
+          'Better Margins: Gross margin rose from 40% to 46.9% and net margin improved from 19% to 27%, retaining superior profit per dollar of sales.',
+          'Capital Leverage & Equity: Liabilities-to-equity ratio moved from 0.5 to 3.9 (peaking at 6.0 in FY2022) as equity decreased from $134B to $74B due to disciplined share repurchases.',
+          'Data Synthesis: Structured multi-year SEC 10-K filing metrics into visual trend charts, profitability indicators, and executive financial insights.'
+        ],
+        image: '/Apple analysis.jpg',
+        tags: ['Financial Analysis', 'SEC 10-K', 'Business Intelligence', 'Data Dashboard', 'Ratio & Trend Analysis', 'Apple Inc.']
+      },
       {
         title: 'ERP Procurement Process Optimization',
         role: 'Process Re-engineering',
@@ -518,6 +532,13 @@ function App() {
                         <p className="project-team">
                           <strong>Team:</strong> {project.team}
                         </p>
+                      )}
+                      {project.bullets && (
+                        <ul className="activity-bullets" style={{ margin: '8px 0 12px 0' }}>
+                          {project.bullets.map((bullet, bIdx) => (
+                            <li key={bIdx}>{bullet}</li>
+                          ))}
+                        </ul>
                       )}
                       <div className="project-tags">
                         {project.tags.map((tag, tIdx) => (
@@ -852,12 +873,22 @@ function App() {
               ✕
             </button>
 
-            <div className="modal-image-wrap">
+            <div className="modal-image-wrap" style={{ position: 'relative' }}>
               <img
                 src={activeModalProject.image}
                 alt={activeModalProject.title}
                 className="modal-image"
               />
+              <a
+                href={activeModalProject.image}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="activity-card-image-badge"
+                style={{ textDecoration: 'none' }}
+                title="Open full resolution in new tab"
+              >
+                🔍 Open Full Size
+              </a>
             </div>
 
             <div className="modal-body">
@@ -904,6 +935,14 @@ function App() {
               )}
 
               <p className="modal-desc">{activeModalProject.description}</p>
+
+              {activeModalProject.bullets && (
+                <ul className="activity-bullets" style={{ margin: '12px 0 16px 0' }}>
+                  {activeModalProject.bullets.map((bullet, idx) => (
+                    <li key={idx}>{bullet}</li>
+                  ))}
+                </ul>
+              )}
 
               <div className="modal-skills">
                 {activeModalProject.tags.map((tag, idx) => (
