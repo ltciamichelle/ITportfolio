@@ -194,20 +194,14 @@ const CATEGORIES: Category[] = [
     count: '4 Projects',
     coverImage: '/Apple analysis.jpg',
     summary: 'Bridging business goals and technology through financial performance dashboards, process modeling, requirement specifications (SRS), BPMN diagrams, and data-driven insights.',
-    skills: ['Financial Analysis', 'BPMN 2.0', 'System Analysis', 'SRS Documentation', 'Process Mapping', 'SEC 10-K Filings'],
+    skills: ['Power BI', 'Financial Analysis', 'BPMN 2.0', 'System Analysis', 'SRS Documentation', 'Process Mapping'],
     projects: [
       {
         title: 'Apple Inc. Financial Health Dashboard',
-        role: 'Financial Performance & SEC 10-K Analysis',
-        description: 'Comprehensive 15-year financial performance dashboard (FY2009–FY2025) analyzing Apple Inc. based on official SEC 10-K filings. Evaluates long-term revenue growth ($43B to $416B), net profit trajectory ($8B to $112B), gross margin expansion to 46.9%, and capital structure shifts.',
-        bullets: [
-          'Strong Long-Term Growth: Revenue grew from $43B (FY2009) to $416B (FY2025) at ~15% per year, while net income surged from $8B to $112B.',
-          'Better Margins: Gross margin rose from 40% to 46.9% and net margin improved from 19% to 27%, retaining superior profit per dollar of sales.',
-          'Capital Leverage & Equity: Liabilities-to-equity ratio moved from 0.5 to 3.9 (peaking at 6.0 in FY2022) as equity decreased from $134B to $74B due to disciplined share repurchases.',
-          'Data Synthesis: Structured multi-year SEC 10-K filing metrics into visual trend charts, profitability indicators, and executive financial insights.'
-        ],
+        role: 'Power BI Dashboard',
+        description: 'Built a Power BI dashboard on 17 years of Apple SEC 10-K data (FY2009 to FY2025). Cleaned the data with an AI agent, calculated key ratios, and found strong growth, better margins, and rising leverage.',
         image: '/Apple analysis.jpg',
-        tags: ['Financial Analysis', 'SEC 10-K', 'Business Intelligence', 'Data Dashboard', 'Ratio & Trend Analysis', 'Apple Inc.']
+        tags: ['Power BI']
       },
       {
         title: 'ERP Procurement Process Optimization',
