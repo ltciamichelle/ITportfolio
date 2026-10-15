@@ -149,7 +149,7 @@ const CATEGORIES: Category[] = [
     title: 'Front-End Development',
     tag: 'Front-End',
     icon: '💻',
-    count: '4 Projects',
+    count: '1 Project',
     coverImage: '/Real-Time ISS Tracking Dashboard.png',
     summary: 'Transforming designs into responsive, robust web applications using modern JavaScript/TypeScript, component architecture, and clean code.',
     skills: ['HTML5 / CSS3', 'JavaScript', 'React', 'Leaflet.js', 'REST APIs'],
@@ -162,27 +162,6 @@ const CATEGORIES: Category[] = [
         tags: ['HTML5', 'CSS3', 'JavaScript', 'Leaflet.js', 'REST API', 'Real-Time Data'],
         githubUrl: 'https://github.com/ltciamichelle/ISS-Live-Tracker',
         liveUrl: 'https://ltciamichelle.github.io/ISS-Live-Tracker/'
-      },
-      {
-        title: 'Interactive Analytics Dashboard',
-        role: 'React & Data Visualization',
-        description: 'Real-time performance metrics dashboard with dynamic filterable charts, KPI widgets, and responsive dark/light mode.',
-        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
-        tags: ['React', 'TypeScript', 'Chart.js', 'Tailwind']
-      },
-      {
-        title: 'Portfolio & Personal Brand Web',
-        role: 'Frontend Engineering',
-        description: 'Modern developer portfolio built with Vite, React, smooth micro-animations, glassmorphism aesthetics, and fast load speeds.',
-        image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&q=80&w=800',
-        tags: ['React', 'Vite', 'CSS Architecture', 'Responsive']
-      },
-      {
-        title: 'Collaborative Kanban Task Board',
-        role: 'Web Application',
-        description: 'Drag-and-drop productivity web app enabling agile task tracking, column status organization, and local storage state persistence.',
-        image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=800',
-        tags: ['JavaScript', 'HTML5 DnD', 'Component State']
       }
     ]
   },
@@ -191,10 +170,10 @@ const CATEGORIES: Category[] = [
     title: 'Business Analysis',
     tag: 'Business Analysis',
     icon: '📊',
-    count: '4 Projects',
+    count: '1 Project',
     coverImage: '/Apple analysis.jpg',
     summary: 'Bridging business goals and technology through financial performance dashboards, process modeling, requirement specifications (SRS), BPMN diagrams, and data-driven insights.',
-    skills: ['Power BI', 'Python (Pandas)', 'Financial Analysis', 'BPMN 2.0', 'System Analysis', 'SRS Documentation', 'Process Mapping'],
+    skills: ['Power BI', 'Python (Pandas)', 'Financial Analysis', 'SEC 10-K Filings', 'Data Visualization', 'BPMN 2.0'],
     projects: [
       {
         title: 'Apple Inc. Financial Health Dashboard',
@@ -202,27 +181,6 @@ const CATEGORIES: Category[] = [
         description: 'Built a Power BI dashboard on 17 years of Apple SEC 10-K data (FY2009 to FY2025). Cleaned the data with an AI agent, calculated key ratios, and found strong growth, better margins, and rising leverage.',
         image: '/Apple analysis.jpg',
         tags: ['Power BI', 'Python (Pandas)', 'Financial Analysis']
-      },
-      {
-        title: 'ERP Procurement Process Optimization',
-        role: 'Process Re-engineering',
-        description: 'Conducted end-to-end analysis of corporate purchasing workflow, eliminating departmental bottlenecks and cutting approval cycle times by 35%.',
-        image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800',
-        tags: ['BPMN', 'Workflow Optimization', 'Enterprise Systems']
-      },
-      {
-        title: 'Campus Academic Services SRS',
-        role: 'System Requirements Specification',
-        description: 'Authored exhaustive Software Requirements Specification document, use case diagrams, and functional matrix for student administration modules.',
-        image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800',
-        tags: ['SRS', 'UML', 'Functional Requirements', 'UNTAR']
-      },
-      {
-        title: 'Retail Inventory Flow Blueprint',
-        role: 'Business Solution Architecture',
-        description: 'Mapped multi-store inventory fulfillment processes, designing automated stock reconciliation logic to prevent stockouts and shrinkage.',
-        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800',
-        tags: ['Data Flow', 'Gap Analysis', 'Inventory Management']
       }
     ]
   }
@@ -816,20 +774,7 @@ function App() {
           </div>
         </section>
 
-        {/* Testimonial */}
-        <section className="testimonial">
-          <div className="quote-mark">“</div>
-          <p className="quote">
-            Leticia brings a rare combination of technical skills and design sensibility. She understands both the code and the user.
-          </p>
-          <div className="author">
-            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=100" alt="Dr. Handoko" />
-            <div>
-              <h4>Dr. Handoko</h4>
-              <p>Professor, UNTAR</p>
-            </div>
-          </div>
-        </section>
+
 
         {/* Footer */}
         <footer className="footer" id="contact">
