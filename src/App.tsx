@@ -194,14 +194,14 @@ const CATEGORIES: Category[] = [
     count: '4 Projects',
     coverImage: '/Apple analysis.jpg',
     summary: 'Bridging business goals and technology through financial performance dashboards, process modeling, requirement specifications (SRS), BPMN diagrams, and data-driven insights.',
-    skills: ['Power BI', 'Financial Analysis', 'BPMN 2.0', 'System Analysis', 'SRS Documentation', 'Process Mapping'],
+    skills: ['Power BI', 'Python (Pandas)', 'Financial Analysis', 'BPMN 2.0', 'System Analysis', 'SRS Documentation', 'Process Mapping'],
     projects: [
       {
         title: 'Apple Inc. Financial Health Dashboard',
         role: 'Power BI Dashboard',
         description: 'Built a Power BI dashboard on 17 years of Apple SEC 10-K data (FY2009 to FY2025). Cleaned the data with an AI agent, calculated key ratios, and found strong growth, better margins, and rising leverage.',
         image: '/Apple analysis.jpg',
-        tags: ['Power BI']
+        tags: ['Power BI', 'Python (Pandas)', 'Financial Analysis']
       },
       {
         title: 'ERP Procurement Process Optimization',
