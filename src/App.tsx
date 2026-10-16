@@ -65,9 +65,10 @@ const ACTIVITIES: Activity[] = [
     image: '/arthavisi.jpg',
     description: 'Awarded 3rd Place Winner with Team Tarawangsa in the national Future Forward Arthavisi 2025 business case competition themed "Driving Competitiveness Through Innovation".',
     bullets: [
-      'Represented Team Tarawangsa in national business case competition',
-      'Formulated competitive market growth strategies & business innovation roadmaps',
-      'Awarded 3rd Place Winner trophy and official certificate on 26 June 2025'
+      'Conducted business analysis to identify core challenges and strategic opportunities within the case.',
+      'Applied key business frameworks to structure analysis and formulate a robust solution.',
+      'Developed a comprehensive financial projection model to validate the business’s feasibility and potential profitability.',
+      'Designed and delivered a persuasive pitch presentation to a panel of industry-expert judges.'
     ],
     tags: ['Business Case', 'Strategic Analysis', 'Innovation', 'Team Tarawangsa'],
     icon: '🏆'
@@ -328,14 +329,6 @@ function App() {
       <header className={`navbar-header ${isScrolled ? 'scrolled' : ''}`}>
         <div className="container">
           <nav className="navbar">
-            <a
-              href="#about"
-              className="logo"
-              onClick={(e) => handleNavClick(e, 'about')}
-              style={{ textDecoration: 'none', color: 'inherit' }}
-            >
-              LM<span className="dot">.</span>
-            </a>
             <div className="nav-links">
               <a
                 href="#categories"
