@@ -1,6 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import './index.css';
 
+interface ProjectLink {
+  label: string;
+  url?: string;
+  icon?: string;
+}
+
 interface Project {
   title: string;
   role: string;
@@ -11,6 +17,12 @@ interface Project {
   githubUrl?: string;
   liveUrl?: string;
   bullets?: string[];
+  businessQuestion?: string;
+  keyFindings?: string[];
+  recommendation?: string;
+  steps?: string[];
+  limits?: string;
+  links?: ProjectLink[];
 }
 
 interface Category {
@@ -198,11 +210,42 @@ const CATEGORIES: Category[] = [
     title: 'Business Analysis',
     tag: 'Business Analysis',
     icon: '📊',
-    count: '1 Project',
+    count: '2 Projects',
     coverImage: '/Apple analysis.jpg',
-    summary: 'Bridging business goals and technology through financial performance dashboards, process modeling, requirement specifications (SRS), BPMN diagrams, and data-driven insights.',
-    skills: ['Power BI', 'Python (Pandas)', 'Financial Analysis', 'SEC 10-K Filings', 'Data Visualization', 'BPMN 2.0'],
+    summary: 'Bridging business goals and technology through financial performance dashboards, customer segmentation, process modeling, requirement specifications (SRS), BPMN diagrams, and data-driven insights.',
+    skills: ['Power BI', 'Python (pandas)', 'Customer Segmentation', 'Google Colab', 'Financial Analysis', 'Data Visualization'],
     projects: [
+      {
+        title: 'Bank Customer Segmentation and Cross-Sell Opportunity Analysis',
+        role: 'Business Analytics & Power BI',
+        description: 'Segmented 10,000 bank customers by balance, age, and products, and found about 2,100 high-balance customers with only one product as the best cross-sell target.',
+        image: '/bank churn predict.jpg',
+        tags: ['Python (pandas)', 'Google Colab', 'Power BI'],
+        businessQuestion: 'Which customers hold the most value, and who should the bank offer more products to?',
+        keyFindings: [
+          'Top 20% hold about 40% of balances',
+          '36% have a zero balance',
+          'About 2,100 cross-sell targets'
+        ],
+        bullets: [
+          'Top 20% hold about 40% of balances',
+          '36% have a zero balance',
+          'About 2,100 cross-sell targets'
+        ],
+        recommendation: 'Offer a second product to this group first, and test on a small sample.',
+        steps: [
+          'Cleaned the data in Python',
+          'Built segments',
+          'Built the dashboard in Power BI',
+          'Validated the numbers'
+        ],
+        limits: 'No churn, income, or activity data, so this shows who to test, not what will work.',
+        links: [
+          { label: 'Notebook', url: '#', icon: '📓' },
+          { label: 'Dashboard PDF', url: '#', icon: '📄' },
+          { label: 'Dataset source', url: '#', icon: '📊' }
+        ]
+      },
       {
         title: 'Apple Inc. Financial Health Dashboard',
         role: 'Power BI Dashboard',
@@ -500,6 +543,11 @@ function App() {
                         <p className="project-role">{project.role}</p>
                       </div>
                       <p className="project-description">{project.description}</p>
+                      {project.businessQuestion && (
+                        <div className="card-question-box">
+                          <strong>Business Question:</strong> {project.businessQuestion}
+                        </div>
+                      )}
                       {project.team && (
                         <p className="project-team">
                           <strong>Team:</strong> {project.team}
@@ -940,7 +988,31 @@ function App() {
 
               <p className="modal-desc">{activeModalProject.description}</p>
 
-              {activeModalProject.bullets && (
+              {activeModalProject.businessQuestion && (
+                <div className="modal-section-card business-question-card">
+                  <div className="section-card-header">
+                    <span className="section-card-icon">🎯</span>
+                    <h4>Business Question</h4>
+                  </div>
+                  <p>{activeModalProject.businessQuestion}</p>
+                </div>
+              )}
+
+              {activeModalProject.keyFindings && (
+                <div className="modal-section-card">
+                  <div className="section-card-header">
+                    <span className="section-card-icon">💡</span>
+                    <h4>Key Findings</h4>
+                  </div>
+                  <ul className="activity-bullets" style={{ margin: '6px 0 2px 0' }}>
+                    {activeModalProject.keyFindings.map((finding, idx) => (
+                      <li key={idx}>{finding}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {!activeModalProject.keyFindings && activeModalProject.bullets && (
                 <ul className="activity-bullets" style={{ margin: '12px 0 16px 0' }}>
                   {activeModalProject.bullets.map((bullet, idx) => (
                     <li key={idx}>{bullet}</li>
@@ -948,7 +1020,73 @@ function App() {
                 </ul>
               )}
 
+              {activeModalProject.recommendation && (
+                <div className="modal-section-card recommendation-card">
+                  <div className="section-card-header">
+                    <span className="section-card-icon">🚀</span>
+                    <h4>Strategic Recommendation</h4>
+                  </div>
+                  <p>{activeModalProject.recommendation}</p>
+                </div>
+              )}
+
+              {activeModalProject.steps && (
+                <div className="modal-section-card">
+                  <div className="section-card-header">
+                    <span className="section-card-icon">🛠️</span>
+                    <h4>How I Built It</h4>
+                  </div>
+                  <div className="modal-steps-list">
+                    {activeModalProject.steps.map((step, idx) => (
+                      <div key={idx} className="modal-step-item">
+                        <span className="step-number">{idx + 1}</span>
+                        <span className="step-text">{step}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {activeModalProject.limits && (
+                <div className="modal-section-card limitations-card">
+                  <div className="section-card-header">
+                    <span className="section-card-icon">⚠️</span>
+                    <h4>Project Scope & Limitations</h4>
+                  </div>
+                  <p>{activeModalProject.limits}</p>
+                </div>
+              )}
+
+              {activeModalProject.links && activeModalProject.links.length > 0 && (
+                <div className="modal-project-links">
+                  <span className="project-links-label">Project Resources:</span>
+                  <div className="project-links-buttons">
+                    {activeModalProject.links.map((link, idx) => (
+                      <a
+                        key={idx}
+                        href={link.url || '#'}
+                        target={link.url && link.url !== '#' ? '_blank' : undefined}
+                        rel="noopener noreferrer"
+                        className="modal-resource-link"
+                        onClick={(e) => {
+                          if (!link.url || link.url === '#') {
+                            e.preventDefault();
+                          }
+                        }}
+                      >
+                        <span>{link.icon || '🔗'}</span>
+                        <span>{link.label}</span>
+                        <span className="arrow">↗</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="modal-skills">
+                <span style={{ alignSelf: 'center', marginRight: '4px', fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-muted)' }}>
+                  Tools:
+                </span>
                 {activeModalProject.tags.map((tag, idx) => (
                   <span key={idx} className="skill-pill">{tag}</span>
                 ))}
