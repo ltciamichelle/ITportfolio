@@ -261,7 +261,30 @@ function App() {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
   const [activeModalActivity, setActiveModalActivity] = useState<Activity | null>(null);
+  const [activeModalExperience, setActiveModalExperience] = useState<Experience | null>(null);
   const [activityFilter, setActivityFilter] = useState<'All' | 'Bootcamp' | 'Competition'>('All');
+
+  // Prevent background scroll and allow ESC key to close modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setActiveModalProject(null);
+        setActiveModalActivity(null);
+        setActiveModalExperience(null);
+      }
+    };
+
+    if (activeModalProject || activeModalActivity || activeModalExperience) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeModalProject, activeModalActivity, activeModalExperience]);
 
   // Smooth scroll and active section states
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -688,47 +711,82 @@ function App() {
             onMouseUp={handleTimelineMouseUpOrLeave}
             onMouseLeave={handleTimelineMouseUpOrLeave}
           >
-            {EXPERIENCES.map((exp, idx) => (
-              <div className="timeline-item-h" key={idx}>
-                <div className="timeline-marker-h"></div>
-                <div className="timeline-content-h">
-                  <span className="timeline-date-h">{exp.period}</span>
-                  <h3>{exp.role}</h3>
-                  <p className="timeline-company-h">{exp.company}{exp.type ? ` · ${exp.type}` : ''}</p>
+            {EXPERIENCES.map((exp, idx) => {
+              const hasDetails = Boolean((exp.highlights && exp.highlights.length > 0) || (exp.tools && exp.tools.length > 0));
+              return (
+                <div className={`timeline-item-h ${hasDetails ? 'has-details' : ''}`} key={idx}>
+                  <div className="timeline-marker-h"></div>
+                  <div
+                    className="timeline-content-h"
+                    onClick={() => {
+                      if (hasDetails) setActiveModalExperience(exp);
+                    }}
+                  >
+                    <span className="timeline-date-h">{exp.period}</span>
+                    <h3>{exp.role}</h3>
+                    <p className="timeline-company-h">{exp.company}{exp.type ? ` · ${exp.type}` : ''}</p>
 
-                  {exp.highlights && exp.highlights.length > 0 && (
-                    <div className="timeline-highlights">
-                      {exp.highlights.map((item, hIdx) => (
-                        <div key={hIdx} className="timeline-highlight-item">
-                          <h4 className="timeline-highlight-title">
-                            <span className="timeline-highlight-bullet">▸</span> {item.category}
-                          </h4>
-                          {item.description && <p className="timeline-highlight-desc">{item.description}</p>}
-                          {item.bullets && (
-                            <ul className="timeline-highlight-bullets">
-                              {item.bullets.map((bullet, bIdx) => (
-                                <li key={bIdx}>{bullet}</li>
-                              ))}
-                            </ul>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                    {/* Mobile View Detail Button & Preview */}
+                    {hasDetails && (
+                      <div className="timeline-mobile-detail-trigger">
+                        {exp.highlights && (
+                          <div className="timeline-mobile-pills">
+                            {exp.highlights.map((h, hIdx) => (
+                              <span key={hIdx} className="timeline-mobile-pill">
+                                {h.category}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        <button
+                          type="button"
+                          className="timeline-view-detail-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveModalExperience(exp);
+                          }}
+                        >
+                          View Details <span className="arrow">↗</span>
+                        </button>
+                      </div>
+                    )}
 
-                  {exp.tools && exp.tools.length > 0 && (
-                    <div className="timeline-tools-wrap">
-                      <span className="timeline-tools-label">Tools used</span>
-                      <div className="timeline-tools-list">
-                        {exp.tools.map((tool, tIdx) => (
-                          <span key={tIdx} className="skill-pill">{tool}</span>
+                    {/* Desktop Highlights */}
+                    {exp.highlights && exp.highlights.length > 0 && (
+                      <div className="timeline-highlights">
+                        {exp.highlights.map((item, hIdx) => (
+                          <div key={hIdx} className="timeline-highlight-item">
+                            <h4 className="timeline-highlight-title">
+                              <span className="timeline-highlight-bullet">▸</span> {item.category}
+                            </h4>
+                            {item.description && <p className="timeline-highlight-desc">{item.description}</p>}
+                            {item.bullets && (
+                              <ul className="timeline-highlight-bullets">
+                                {item.bullets.map((bullet, bIdx) => (
+                                  <li key={bIdx}>{bullet}</li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
                         ))}
                       </div>
-                    </div>
-                  )}
+                    )}
+
+                    {/* Desktop Tools */}
+                    {exp.tools && exp.tools.length > 0 && (
+                      <div className="timeline-tools-wrap">
+                        <span className="timeline-tools-label">Tools used</span>
+                        <div className="timeline-tools-list">
+                          {exp.tools.map((tool, tIdx) => (
+                            <span key={tIdx} className="skill-pill">{tool}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
@@ -1166,6 +1224,77 @@ function App() {
                   <span key={idx} className="skill-pill">{tag}</span>
                 ))}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Experience Detail Modal */}
+      {activeModalExperience && (
+        <div
+          className="modal-backdrop"
+          onClick={() => setActiveModalExperience(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="modal-content experience-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="modal-close-btn"
+              onClick={() => setActiveModalExperience(null)}
+              aria-label="Close Modal"
+            >
+              ✕
+            </button>
+
+            <div className="modal-body">
+              <div className="modal-title-row">
+                <div style={{ paddingRight: '40px' }}>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '8px' }}>
+                    <span className="modal-badge">{activeModalExperience.company}</span>
+                    {activeModalExperience.type && (
+                      <span className="activity-award-pill" style={{ alignSelf: 'center' }}>
+                        💼 {activeModalExperience.type}
+                      </span>
+                    )}
+                  </div>
+                  <h2>{activeModalExperience.role}</h2>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '4px' }}>
+                    📅 {activeModalExperience.period}
+                  </p>
+                </div>
+              </div>
+
+              {activeModalExperience.highlights && activeModalExperience.highlights.length > 0 && (
+                <div className="modal-experience-highlights">
+                  {activeModalExperience.highlights.map((item, idx) => (
+                    <div key={idx} className="modal-section-card">
+                      <div className="section-card-header">
+                        <span className="section-card-icon">📈</span>
+                        <h4>{item.category}</h4>
+                      </div>
+                      {item.description && <p>{item.description}</p>}
+                      {item.bullets && (
+                        <ul className="activity-bullets" style={{ margin: '8px 0 0 0' }}>
+                          {item.bullets.map((bullet, bIdx) => (
+                            <li key={bIdx}>{bullet}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {activeModalExperience.tools && activeModalExperience.tools.length > 0 && (
+                <div className="modal-skills" style={{ marginTop: '8px' }}>
+                  <span style={{ alignSelf: 'center', marginRight: '4px', fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-muted)' }}>
+                    Tools Used:
+                  </span>
+                  {activeModalExperience.tools.map((tool, idx) => (
+                    <span key={idx} className="skill-pill">{tool}</span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

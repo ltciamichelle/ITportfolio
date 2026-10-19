@@ -1541,6 +1541,25 @@ footer[id] {
   gap: 6px;
 }
 
+.timeline-mobile-detail-trigger {
+  display: none;
+}
+
+.experience-modal-content {
+  max-width: 640px;
+}
+
+.experience-modal-content .modal-body {
+  padding: 32px 28px;
+}
+
+.modal-experience-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 8px;
+}
+
 
 /* Activities Section (Bootcamps & Competitions) */
 .activities {
@@ -2140,11 +2159,81 @@ footer[id] {
   }
 
   .timeline-item-h {
-    min-width: 240px;
+    min-width: 250px;
+    max-width: 320px;
+  }
+
+  .timeline-item-h.has-details .timeline-content-h {
+    cursor: pointer;
   }
 
   .timeline-content-h {
     padding: 18px;
+  }
+
+  /* Compact job description on mobile */
+  .timeline-highlights,
+  .timeline-tools-wrap {
+    display: none;
+  }
+
+  .timeline-mobile-detail-trigger {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed rgba(13, 148, 136, 0.2);
+  }
+
+  .timeline-mobile-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .timeline-mobile-pill {
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-light);
+    padding: 4px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.2px;
+  }
+
+  .timeline-view-detail-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #ffffff;
+    border: 1px solid rgba(13, 148, 136, 0.3);
+    border-radius: 100px;
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(13, 148, 136, 0.08);
+  }
+
+  .timeline-view-detail-btn:hover,
+  .timeline-view-detail-btn:active {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+    box-shadow: 0 4px 14px rgba(13, 148, 136, 0.22);
+  }
+
+  .timeline-view-detail-btn .arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .timeline-view-detail-btn:hover .arrow {
+    transform: translate(2px, -2px);
   }
 
   /* Testimonial */
