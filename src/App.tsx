@@ -68,24 +68,6 @@ interface Activity {
 
 const ACTIVITIES: Activity[] = [
   {
-    title: 'Bizznovation BPC & UI/UX Competition',
-    category: 'Competition',
-    organizer: 'Universitas Pradita (HIMSI & HIMMA)',
-    date: 'Apr - May 2026',
-    award: '🏅 7th Ranked Finalist',
-    team: 'Team UCCD_SixSeven',
-    image: '/serti bizzno.jpg',
-    description: 'Achieved 7th Rank with Team UCCD_SixSeven in Bizznovation (BIZZNO) 2026, a Business Plan Competition (BPC) and UI/UX competition organized by Universitas Pradita themed "Turning Vision Into Solution".',
-    bullets: [
-      'Ranked 7th nationally among university participants in digital business strategy and UI/UX product innovation.',
-      'Formulated an end-to-end business proposal with market validation and strategic value proposition.',
-      'Designed user-centric, high-fidelity UI/UX wireframes and interactive prototypes.',
-      'Pitched the business model, UX architecture, and feasibility to the panel of judges.'
-    ],
-    tags: ['Business Plan (BPC)', 'UI/UX Design', 'Universitas Pradita', 'UCCD_SixSeven', 'Product Strategy'],
-    icon: '🏆'
-  },
-  {
     title: 'Arthavisi Business Case Competition',
     category: 'Competition',
     organizer: 'Future Forward Arthavisi (Investment Club)',
@@ -101,6 +83,24 @@ const ACTIVITIES: Activity[] = [
       'Designed and delivered a persuasive pitch presentation to a panel of industry-expert judges.'
     ],
     tags: ['Business Case', 'Strategic Analysis', 'Innovation', 'Team Tarawangsa'],
+    icon: '🏆'
+  },
+  {
+    title: 'Bizznovation BPC & UI/UX Competition',
+    category: 'Competition',
+    organizer: 'Universitas Pradita (HIMSI & HIMMA)',
+    date: 'Apr - May 2026',
+    award: '🏅 7th Ranked Finalist',
+    team: 'Team UCCD_SixSeven',
+    image: '/serti bizzno.jpg',
+    description: 'Achieved 7th Rank with Team UCCD_SixSeven in Bizznovation (BIZZNO) 2026, a Business Plan Competition (BPC) and UI/UX competition organized by Universitas Pradita themed "Turning Vision Into Solution".',
+    bullets: [
+      'Ranked 7th nationally among university participants in digital business strategy and UI/UX product innovation.',
+      'Formulated an end-to-end business proposal with market validation and strategic value proposition.',
+      'Designed user-centric, high-fidelity UI/UX wireframes and interactive prototypes.',
+      'Pitched the business model, UX architecture, and feasibility to the panel of judges.'
+    ],
+    tags: ['Business Plan (BPC)', 'UI/UX Design', 'Universitas Pradita', 'UCCD_SixSeven', 'Product Strategy'],
     icon: '🏆'
   },
   {
@@ -211,7 +211,7 @@ const CATEGORIES: Category[] = [
     tag: 'Business Analysis',
     icon: '📊',
     count: '2 Projects',
-    coverImage: '/Apple analysis.jpg',
+    coverImage: '/apple analysis new.png',
     summary: 'Bridging business goals and technology through financial performance dashboards, customer segmentation, process modeling, requirement specifications (SRS), BPMN diagrams, and data-driven insights.',
     skills: ['Power BI', 'Python (pandas)', 'Customer Segmentation', 'Google Colab', 'Financial Analysis', 'Data Visualization'],
     projects: [
@@ -250,7 +250,7 @@ const CATEGORIES: Category[] = [
         title: 'Apple Inc. Financial Health Dashboard',
         role: 'Power BI Dashboard',
         description: 'Built a Power BI dashboard on 17 years of Apple SEC 10-K data (FY2009 to FY2025). Cleaned the data with an AI agent, calculated key ratios, and found strong growth, better margins, and rising leverage.',
-        image: '/Apple analysis.jpg',
+        image: '/apple analysis new.png',
         tags: ['Power BI', 'Python (Pandas)', 'Financial Analysis']
       }
     ]
