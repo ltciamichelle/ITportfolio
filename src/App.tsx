@@ -12,6 +12,9 @@ interface Project {
   role: string;
   description: string;
   image: string;
+  processImage?: string;
+  processImageCaption?: string;
+  colabUrl?: string;
   tags: string[];
   team?: string;
   githubUrl?: string;
@@ -220,6 +223,9 @@ const CATEGORIES: Category[] = [
         role: 'Business Analytics & Power BI',
         description: 'Segmented 10,000 bank customers by balance, age, and products, and found about 2,100 high-balance customers with only one product as the best cross-sell target.',
         image: '/bank churn predict.jpg',
+        processImage: '/bank-churn-colab-process.png',
+        processImageCaption: 'Exploratory data analysis & balance tier geographic distribution in Google Colab (Python / pandas / matplotlib):',
+        colabUrl: 'https://colab.research.google.com/drive/1rsPiTNdo77Dhp2-_koTvmkMFYYwFEtJH?usp=sharing',
         tags: ['Python (pandas)', 'Google Colab', 'Power BI'],
         businessQuestion: 'Which customers hold the most value, and who should the bank offer more products to?',
         keyFindings: [
@@ -241,9 +247,11 @@ const CATEGORIES: Category[] = [
         ],
         limits: 'No churn, income, or activity data, so this shows who to test, not what will work.',
         links: [
-          { label: 'Notebook', url: '#', icon: '📓' },
-          { label: 'Dashboard PDF', url: '#', icon: '📄' },
-          { label: 'Dataset source', url: '#', icon: '📊' }
+          {
+            label: 'Google Colab Notebook',
+            url: 'https://colab.research.google.com/drive/1rsPiTNdo77Dhp2-_koTvmkMFYYwFEtJH?usp=sharing',
+            icon: '📓'
+          }
         ]
       },
       {
@@ -609,6 +617,17 @@ function App() {
                         >
                           View Details <span className="arrow">↗</span>
                         </button>
+                        {project.colabUrl && (
+                          <a
+                            href={project.colabUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project-action-link primary"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            Colab Notebook <span className="arrow">↗</span>
+                          </a>
+                        )}
                         {project.liveUrl && (
                           <a
                             href={project.liveUrl}
@@ -1020,8 +1039,18 @@ function App() {
                 </div>
               </div>
 
-              {(activeModalProject.liveUrl || activeModalProject.githubUrl) && (
+              {(activeModalProject.liveUrl || activeModalProject.githubUrl || activeModalProject.colabUrl) && (
                 <div className="modal-links-row">
+                  {activeModalProject.colabUrl && (
+                    <a
+                      href={activeModalProject.colabUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="project-action-link primary modal-action-btn"
+                    >
+                      <span>📓</span> Google Colab Notebook <span className="arrow">↗</span>
+                    </a>
+                  )}
                   {activeModalProject.liveUrl && (
                     <a
                       href={activeModalProject.liveUrl}
@@ -1112,6 +1141,37 @@ function App() {
                         <span className="step-text">{step}</span>
                       </div>
                     ))}
+                  </div>
+                </div>
+              )}
+
+              {activeModalProject.processImage && (
+                <div className="modal-section-card process-image-card">
+                  <div className="section-card-header">
+                    <span className="section-card-icon">📊</span>
+                    <h4>Analysis & Modeling Process</h4>
+                  </div>
+                  {activeModalProject.processImageCaption && (
+                    <p style={{ fontSize: '0.88rem', color: 'var(--color-text-muted)', margin: '2px 0 10px 0' }}>
+                      {activeModalProject.processImageCaption}
+                    </p>
+                  )}
+                  <div className="modal-process-image-wrap" style={{ position: 'relative' }}>
+                    <img
+                      src={activeModalProject.processImage}
+                      alt="Process Showcase"
+                      className="modal-process-image"
+                    />
+                    <a
+                      href={activeModalProject.processImage}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="activity-card-image-badge"
+                      style={{ textDecoration: 'none' }}
+                      title="Open full resolution in new tab"
+                    >
+                      🔍 Open Full Size
+                    </a>
                   </div>
                 </div>
               )}

@@ -2345,6 +2345,33 @@ footer[id] {
   margin: 0;
 }
 
+.modal-section-card.process-image-card {
+  background: linear-gradient(135deg, rgba(37, 99, 255, 0.12) 0%, rgba(10, 26, 77, 0.45) 100%);
+  border-color: rgba(63, 169, 255, 0.32);
+}
+
+.modal-process-image-wrap {
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(96, 165, 250, 0.35);
+  background: rgba(2, 6, 23, 0.85);
+  box-shadow: 0 8px 24px rgba(2, 5, 15, 0.6);
+  position: relative;
+}
+
+.modal-process-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  transition: transform 0.3s var(--ease-smooth);
+}
+
+.modal-process-image:hover {
+  transform: scale(1.02);
+}
+
 .modal-section-card.limitations-card {
   background: rgba(10, 26, 77, 0.35);
   border: 1px solid rgba(63, 169, 255, 0.2);
