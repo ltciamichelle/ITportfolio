@@ -394,10 +394,21 @@ function App() {
 
   return (
     <div className="app">
-      {/* Background Gradients */}
-      <div className="bg-gradient bg-top-right"></div>
-      <div className="bg-gradient bg-bottom-left"></div>
-      <div className="bg-gradient bg-mid-glow"></div>
+      {/* Background Ambient Glows & Shooting Stars System */}
+      <div className="bg-gradient-base" aria-hidden="true"></div>
+      <div className="bg-hero-glow" aria-hidden="true"></div>
+      <div className="bg-corner-glow" aria-hidden="true"></div>
+      <div className="static-stars-layer" aria-hidden="true"></div>
+      <div className="bg-stars-layer" aria-hidden="true">
+        <div className="shooting-star"></div>
+        <div className="shooting-star"></div>
+        <div className="shooting-star"></div>
+        <div className="shooting-star"></div>
+        <div className="shooting-star"></div>
+        <div className="shooting-star"></div>
+        <div className="shooting-star"></div>
+        <div className="shooting-star"></div>
+      </div>
 
       {/* Top Scroll Progress Bar */}
       <div
