@@ -73,37 +73,35 @@ const ACTIVITIES: Activity[] = [
   {
     title: 'Arthavisi Business Case Competition',
     category: 'Competition',
-    organizer: 'Future Forward Arthavisi (Investment Club)',
+    organizer: 'Future Forward Arthavisi',
     date: 'Jun 2025',
     award: '🏆 3rd Place Winner',
-    team: 'Team Tarawangsa',
     image: '/arthavisi.jpg',
-    description: 'Awarded 3rd Place Winner with Team Tarawangsa in the national Future Forward Arthavisi 2025 business case competition themed "Driving Competitiveness Through Innovation".',
+    description: 'Awarded 3rd Place Winner in the national Future Forward Arthavisi 2025 business case competition themed "Driving Competitiveness Through Innovation".',
     bullets: [
       'Conducted business analysis to identify core challenges and strategic opportunities within the case.',
       'Applied key business frameworks to structure analysis and formulate a robust solution.',
       'Developed a comprehensive financial projection model to validate the business’s feasibility and potential profitability.',
       'Designed and delivered a persuasive pitch presentation to a panel of industry-expert judges.'
     ],
-    tags: ['Business Case', 'Strategic Analysis', 'Innovation', 'Team Tarawangsa'],
+    tags: ['Business Strategy', 'Financial Modeling', 'Strategic Analysis', 'Feasibility Analysis', 'Pitch Presentation'],
     icon: '🏆'
   },
   {
     title: 'Bizznovation BPC & UI/UX Competition',
     category: 'Competition',
-    organizer: 'Universitas Pradita (HIMSI & HIMMA)',
+    organizer: 'HIMSI & HIMMA',
     date: 'Apr - May 2026',
     award: '🏅 7th Ranked Finalist',
-    team: 'Team UCCD_SixSeven',
     image: '/serti bizzno.jpg',
-    description: 'Achieved 7th Rank with Team UCCD_SixSeven in Bizznovation (BIZZNO) 2026, a Business Plan Competition (BPC) and UI/UX competition organized by Universitas Pradita themed "Turning Vision Into Solution".',
+    description: 'Achieved 7th Rank in Bizznovation (BIZZNO) 2026, a Business Plan Competition (BPC) and UI/UX competition themed "Turning Vision Into Solution".',
     bullets: [
       'Ranked 7th nationally among university participants in digital business strategy and UI/UX product innovation.',
       'Formulated an end-to-end business proposal with market validation and strategic value proposition.',
-      'Designed user-centric, high-fidelity UI/UX wireframes and interactive prototypes.',
+      'Designed user-centric, high-fidelity UI/UX wireframes and interactive prototypes in Figma.',
       'Pitched the business model, UX architecture, and feasibility to the panel of judges.'
     ],
-    tags: ['Business Plan (BPC)', 'UI/UX Design', 'Universitas Pradita', 'UCCD_SixSeven', 'Product Strategy'],
+    tags: ['UI/UX Design', 'Figma', 'Wireframing & Prototyping', 'Business Strategy', 'Market Validation', 'Product Strategy'],
     icon: '🏆'
   },
   {
@@ -116,11 +114,11 @@ const ACTIVITIES: Activity[] = [
     description: 'Selected mentee for the startup acceleration path, collaborating on business plan analysis and digital SME venture creation.',
     bullets: [
       'Selected as top 50 of 300+ applicants',
-      'Collaborated in a team of 5 on business plan and real business case analysis to explore market growth strategies',
-      'Co-created “BizGrow” a sales tracking app concept for SMEs as our capstone project',
-      'Guided by mentors from top company and big 4 consultants'
+      'Collaborated on business plan and real business case analysis to explore market growth strategies',
+      'Co-created a sales tracking app concept for SMEs as our capstone project',
+      'Guided by mentors from top companies and Big 4 consultants'
     ],
-    tags: ['Start-Up Incubation', 'BizGrow SME App', 'Market Growth', 'Consulting'],
+    tags: ['Business Strategy', 'Market Growth', 'Start-Up Incubation', 'Product Ideation', 'Consulting Frameworks'],
     icon: '🚀'
   }
 ];
@@ -897,13 +895,6 @@ function App() {
                   <span>{activity.date}</span>
                 </div>
 
-                {activity.team && (
-                  <div className="activity-team-row">
-                    <span>👥</span>
-                    <span><strong>Team:</strong> {activity.team}</span>
-                  </div>
-                )}
-
                 <p className="activity-desc">{activity.description}</p>
 
                 {activity.bullets && (
@@ -1269,16 +1260,6 @@ function App() {
                   </p>
                 </div>
               </div>
-
-              {activeModalActivity.team && (
-                <div className="modal-team-box">
-                  <span className="team-icon">👥</span>
-                  <div>
-                    <strong>Team:</strong>
-                    <p>{activeModalActivity.team}</p>
-                  </div>
-                </div>
-              )}
 
               <p className="modal-desc">{activeModalActivity.description}</p>
 
