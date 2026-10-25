@@ -186,8 +186,8 @@ const CATEGORIES: Category[] = [
   },
   {
     id: 'frontend',
-    title: 'Front-End Development',
-    tag: 'Front-End',
+    title: 'Website Development',
+    tag: 'Website Development',
     icon: '💻',
     count: '1 Project',
     coverImage: '/Real-Time ISS Tracking Dashboard.png',
@@ -426,6 +426,13 @@ function App() {
           <nav className="navbar">
             <div className="nav-links">
               <a
+                href="#about"
+                className={activeSection === 'about' ? 'active' : ''}
+                onClick={(e) => handleNavClick(e, 'about')}
+              >
+                About
+              </a>
+              <a
                 href="#categories"
                 className={activeSection === 'categories' ? 'active' : ''}
                 onClick={(e) => handleNavClick(e, 'categories')}
@@ -445,13 +452,6 @@ function App() {
                 onClick={(e) => handleNavClick(e, 'activities')}
               >
                 Activities
-              </a>
-              <a
-                href="#about"
-                className={activeSection === 'about' ? 'active' : ''}
-                onClick={(e) => handleNavClick(e, 'about')}
-              >
-                About
               </a>
               <a
                 href="#contact"
@@ -486,7 +486,7 @@ function App() {
               <strong>Universitas Tarumanagara</strong>
             </p>
             <p className="description">
-              I specialize in bridging business needs with seamless digital experiences through <strong>UI/UX Design</strong>, <strong>Front-End Development</strong>, and <strong>Business Analysis</strong>.
+              I specialize in bridging business needs with seamless digital experiences through <strong>UI/UX Design</strong>, <strong>Website Development</strong>, and <strong>Business Analysis</strong>.
             </p>
 
             <div className="hero-actions">
