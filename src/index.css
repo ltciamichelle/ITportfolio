@@ -1805,7 +1805,7 @@ footer[id] {
 .activity-card {
   background: linear-gradient(180deg, rgba(37, 99, 255, 0.12) 0%, rgba(8, 20, 58, 0.58) 26%, rgba(5, 11, 31, 0.75) 100%);
   border-radius: 24px;
-  padding: 28px;
+  padding: 24px;
   border: 1px solid rgba(63, 169, 255, 0.22);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -1818,6 +1818,7 @@ footer[id] {
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
   transition:
     transform 0.3s var(--ease-smooth),
     box-shadow 0.3s var(--ease-smooth),
@@ -1831,6 +1832,11 @@ footer[id] {
     0 0 32px rgba(63, 169, 255, 0.4),
     inset 0 1px 2px rgba(143, 211, 255, 0.75);
   border-color: rgba(63, 169, 255, 0.6);
+}
+
+.activity-card:focus-visible {
+  outline: 2px solid var(--color-glow-blue);
+  outline-offset: 3px;
 }
 
 .activity-card-header {
@@ -1927,19 +1933,25 @@ footer[id] {
   font-size: 0.92rem;
   line-height: 1.6;
   color: var(--color-text-muted);
-  margin-bottom: 18px;
-  flex: 1;
+  margin-bottom: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 3em;
 }
 
 .activity-card-image-wrap {
   width: 100%;
-  aspect-ratio: 16/10;
+  height: 180px;
   border-radius: 16px;
   overflow: hidden;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   background: var(--bg-dark-2);
   position: relative;
-  border: 1px solid rgba(63, 169, 255, 0.18);
+  border: 1px solid rgba(63, 169, 255, 0.2);
   cursor: pointer;
 }
 
@@ -1951,25 +1963,85 @@ footer[id] {
 }
 
 .activity-card:hover .activity-card-image {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
 .activity-card-image-badge {
   position: absolute;
   bottom: 10px;
   right: 10px;
-  background: rgba(2, 6, 23, 0.9);
+  background: rgba(2, 6, 23, 0.85);
   backdrop-filter: blur(10px);
   color: #BAE6FD;
   font-size: 0.74rem;
   font-weight: 600;
   padding: 4px 12px;
   border-radius: 8px;
-  border: 1px solid rgba(125, 211, 252, 0.6);
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+  border: 1px solid rgba(125, 211, 252, 0.55);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
   display: flex;
   align-items: center;
   gap: 5px;
+  transition: all 0.25s ease;
+}
+
+.activity-card:hover .activity-card-image-badge {
+  background: rgba(37, 99, 255, 0.85);
+  color: #FFFFFF;
+  border-color: rgba(147, 197, 253, 0.85);
+  box-shadow: 0 0 16px rgba(63, 169, 255, 0.55);
+}
+
+.activity-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.activity-card-footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(63, 169, 255, 0.2);
+}
+
+.activity-view-detail-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(10, 26, 77, 0.65);
+  border: 1px solid rgba(63, 169, 255, 0.35);
+  border-radius: 9999px;
+  color: var(--color-light-highlight);
+  font-size: 0.86rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-smooth);
+  width: 100%;
+  box-shadow: 0 0 12px rgba(37, 99, 255, 0.2);
+}
+
+.activity-view-detail-btn:hover,
+.activity-card:hover .activity-view-detail-btn {
+  background: var(--color-main-blue);
+  color: #FFFFFF;
+  border-color: var(--color-glow-blue);
+  box-shadow: 0 0 18px rgba(63, 169, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.skill-pill-more {
+  background: rgba(37, 99, 255, 0.2);
+  border: 1px solid rgba(96, 165, 250, 0.4);
+  color: #93C5FD;
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 9999px;
 }
 
 .activity-bullets {
@@ -2016,7 +2088,11 @@ footer[id] {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: auto;
+  align-items: center;
+}
+
+.activity-modal-content {
+  max-width: 780px;
 }
 
 /* ==========================================================================
@@ -2730,6 +2806,19 @@ footer[id] {
     white-space: nowrap;
     padding: 8px 16px;
     font-size: 0.84rem;
+  }
+
+  .activity-card {
+    padding: 18px;
+  }
+
+  .activity-card-image-wrap {
+    height: 150px;
+    margin-bottom: 14px;
+  }
+
+  .activity-title {
+    font-size: 1.15rem;
   }
 
   /* Timeline */

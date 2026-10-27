@@ -856,73 +856,74 @@ function App() {
               <div
                 className="activity-card"
                 key={idx}
-                onClick={() => activity.image && setActiveModalActivity(activity)}
-                style={{ cursor: activity.image ? 'pointer' : 'default' }}
+                onClick={() => setActiveModalActivity(activity)}
+                role="button"
+                tabIndex={0}
+                aria-label={`Open details for ${activity.title}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setActiveModalActivity(activity);
+                  }
+                }}
               >
                 {activity.image && (
-                  <div
-                    className="activity-card-image-wrap"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setActiveModalActivity(activity);
-                    }}
-                  >
+                  <div className="activity-card-image-wrap">
                     <img src={activity.image} alt={activity.title} className="activity-card-image" />
-                    <span className="activity-card-image-badge">🔍 View Clear Image</span>
+                    <span className="activity-card-image-badge">🔍 View Details</span>
                   </div>
                 )}
 
-                <div className="activity-card-header">
-                  <div className="activity-icon-badge">
-                    <span>{activity.icon}</span>
-                  </div>
-                  <div className="activity-badges">
-                    <span className={`activity-type-pill ${activity.category.toLowerCase()}`}>
-                      {activity.category}
-                    </span>
-                    {activity.award && (
-                      <span className="activity-award-pill">
-                        {activity.award}
+                <div className="activity-card-body">
+                  <div className="activity-card-header">
+                    <div className="activity-icon-badge">
+                      <span>{activity.icon}</span>
+                    </div>
+                    <div className="activity-badges">
+                      <span className={`activity-type-pill ${activity.category.toLowerCase()}`}>
+                        {activity.category}
                       </span>
-                    )}
+                      {activity.award && (
+                        <span className="activity-award-pill">
+                          {activity.award}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <h3 className="activity-title">{activity.title}</h3>
+                  <div className="activity-meta">
+                    <span>{activity.organizer}</span>
+                    <span className="dot-sep">•</span>
+                    <span>{activity.date}</span>
+                  </div>
+
+                  <p className="activity-desc">{activity.description}</p>
+
+                  <div className="activity-card-footer">
+                    <div className="activity-tags">
+                      {activity.tags.slice(0, 3).map((tag, tIdx) => (
+                        <span key={tIdx} className="skill-pill">{tag}</span>
+                      ))}
+                      {activity.tags.length > 3 && (
+                        <span className="skill-pill skill-pill-more">
+                          +{activity.tags.length - 3} more
+                        </span>
+                      )}
+                    </div>
+
+                    <button
+                      type="button"
+                      className="activity-view-detail-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveModalActivity(activity);
+                      }}
+                    >
+                      View Details <span className="arrow">↗</span>
+                    </button>
                   </div>
                 </div>
-
-                <h3 className="activity-title">{activity.title}</h3>
-                <div className="activity-meta">
-                  <span>{activity.organizer}</span>
-                  <span className="dot-sep">•</span>
-                  <span>{activity.date}</span>
-                </div>
-
-                <p className="activity-desc">{activity.description}</p>
-
-                {activity.bullets && (
-                  <ul className="activity-bullets">
-                    {activity.bullets.map((bullet, bIdx) => (
-                      <li key={bIdx}>{bullet}</li>
-                    ))}
-                  </ul>
-                )}
-
-                <div className="activity-tags">
-                  {activity.tags.map((tag, tIdx) => (
-                    <span key={tIdx} className="skill-pill">{tag}</span>
-                  ))}
-                </div>
-
-                {activity.image && (
-                  <button
-                    className="project-explore-btn"
-                    style={{ marginTop: '14px' }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setActiveModalActivity(activity);
-                    }}
-                  >
-                    View Clear Photo / Certificate <span className="arrow">↗</span>
-                  </button>
-                )}
               </div>
             ))}
           </div>
@@ -1224,7 +1225,7 @@ function App() {
           role="dialog"
           aria-modal="true"
         >
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content activity-modal-content" onClick={(e) => e.stopPropagation()}>
             <button
               className="modal-close-btn"
               onClick={() => setActiveModalActivity(null)}
@@ -1245,7 +1246,7 @@ function App() {
 
             <div className="modal-body">
               <div className="modal-title-row">
-                <div>
+                <div style={{ paddingRight: '40px' }}>
                   <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '8px' }}>
                     <span className="modal-badge">{activeModalActivity.category}</span>
                     {activeModalActivity.award && (
@@ -1256,26 +1257,37 @@ function App() {
                   </div>
                   <h2>{activeModalActivity.title}</h2>
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '4px' }}>
-                    {activeModalActivity.organizer} • {activeModalActivity.date}
+                    🏛️ {activeModalActivity.organizer} • 📅 {activeModalActivity.date}
                   </p>
                 </div>
               </div>
 
               <p className="modal-desc">{activeModalActivity.description}</p>
 
-              {activeModalActivity.bullets && (
-                <ul className="activity-bullets" style={{ margin: '8px 0' }}>
-                  {activeModalActivity.bullets.map((bullet, idx) => (
-                    <li key={idx}>{bullet}</li>
-                  ))}
-                </ul>
+              {activeModalActivity.bullets && activeModalActivity.bullets.length > 0 && (
+                <div className="modal-section-card">
+                  <div className="section-card-header">
+                    <span className="section-card-icon">{activeModalActivity.icon || '🏆'}</span>
+                    <h4>Key Highlights & Achievements</h4>
+                  </div>
+                  <ul className="activity-bullets" style={{ margin: '10px 0 0 0' }}>
+                    {activeModalActivity.bullets.map((bullet, idx) => (
+                      <li key={idx}>{bullet}</li>
+                    ))}
+                  </ul>
+                </div>
               )}
 
-              <div className="modal-skills">
-                {activeModalActivity.tags.map((tag, idx) => (
-                  <span key={idx} className="skill-pill">{tag}</span>
-                ))}
-              </div>
+              {activeModalActivity.tags && activeModalActivity.tags.length > 0 && (
+                <div className="modal-skills" style={{ marginTop: '4px' }}>
+                  <span style={{ alignSelf: 'center', marginRight: '6px', fontSize: '0.84rem', fontWeight: 600, color: 'var(--text-muted)' }}>
+                    Key Competencies:
+                  </span>
+                  {activeModalActivity.tags.map((tag, idx) => (
+                    <span key={idx} className="skill-pill">{tag}</span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
