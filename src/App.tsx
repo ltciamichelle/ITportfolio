@@ -502,15 +502,15 @@ function App() {
                 onClick={(e) => handleNavClick(e, 'categories')}
                 style={{ textDecoration: 'none' }}
               >
-                Explore Categories <span className="arrow">→</span>
+                Explore Projects <span className="arrow">→</span>
               </a>
               <a
-                href="#experience"
+                href="/cv.pdf"
+                download="CV_Leticia_Michelle.pdf"
                 className="btn-outline"
-                onClick={(e) => handleNavClick(e, 'experience')}
                 style={{ textDecoration: 'none' }}
               >
-                My journey <span style={{ marginLeft: '4px' }}>🚀</span>
+                Download CV <span style={{ marginLeft: '4px' }}>📥</span>
               </a>
             </div>
           </div>
