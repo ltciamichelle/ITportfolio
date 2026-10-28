@@ -212,7 +212,7 @@ const CATEGORIES: Category[] = [
         tags: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Supabase', 'PostgreSQL', 'Figma', 'Google Stitch', 'Vercel', 'GitHub'],
         team: 'Kathleen Klavinka (UI/UX), Carmen Jessalyn (Business & Product), Leticia Michelle (Fullstack Developer)',
         githubUrl: 'https://github.com/ltciamichelle/StuntGuard',
-        liveUrl: 'https://stuntguard.vercel.app'
+        liveUrl: 'https://stuntguard-beta.vercel.app/'
       },
       {
         title: 'ISS Live Tracker',
