@@ -190,11 +190,20 @@ const CATEGORIES: Category[] = [
     title: 'Website Development',
     tag: 'Website Development',
     icon: '💻',
-    count: '1 Project',
-    coverImage: '/Real-Time ISS Tracking Dashboard.png',
+    count: '2 Projects',
+    coverImage: '/SeeStocks.png',
     summary: 'Transforming designs into responsive, robust web applications using modern JavaScript/TypeScript, component architecture, and clean code.',
-    skills: ['HTML5 / CSS3', 'JavaScript', 'React', 'Leaflet.js', 'REST APIs'],
+    skills: ['Next.js', 'TypeScript', 'Tailwind CSS', 'React', 'MongoDB Atlas', 'REST APIs'],
     projects: [
+      {
+        title: 'SeeStocks',
+        role: 'Full-Stack Stock Analytics Web App',
+        description: 'A web app that helps beginners follow stocks in plain words. Search a stock, see its price and chart, and save it to your own watchlist. Login keeps your list safe in the cloud, so it follows you to any device.',
+        image: '/SeeStocks.png',
+        tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'MongoDB Atlas', 'Clerk Auth', 'REST API', 'Vercel'],
+        githubUrl: 'https://github.com/ltciamichelle/SeeStocks',
+        liveUrl: 'https://seestocks.vercel.app/'
+      },
       {
         title: 'ISS Live Tracker',
         role: 'Real-Time Web Application',
@@ -898,20 +907,7 @@ function App() {
                     <span>{activity.date}</span>
                   </div>
 
-                  <p className="activity-desc">{activity.description}</p>
-
                   <div className="activity-card-footer">
-                    <div className="activity-tags">
-                      {activity.tags.slice(0, 3).map((tag, tIdx) => (
-                        <span key={tIdx} className="skill-pill">{tag}</span>
-                      ))}
-                      {activity.tags.length > 3 && (
-                        <span className="skill-pill skill-pill-more">
-                          +{activity.tags.length - 3} more
-                        </span>
-                      )}
-                    </div>
-
                     <button
                       type="button"
                       className="activity-view-detail-btn"
@@ -1050,7 +1046,7 @@ function App() {
                       rel="noopener noreferrer"
                       className="project-action-link primary modal-action-btn"
                     >
-                      <span>🌐</span> See the Tracker <span className="arrow">↗</span>
+                      <span>🌐</span> {activeModalProject.title === 'ISS Live Tracker' ? 'See the Tracker' : 'Live Demo'} <span className="arrow">↗</span>
                     </a>
                   )}
                   {activeModalProject.githubUrl && (
