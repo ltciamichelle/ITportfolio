@@ -190,10 +190,10 @@ const CATEGORIES: Category[] = [
     title: 'Website Development',
     tag: 'Website Development',
     icon: '💻',
-    count: '2 Projects',
+    count: '3 Projects',
     coverImage: '/SeeStocks.png',
     summary: 'Transforming designs into responsive, robust web applications using modern JavaScript/TypeScript, component architecture, and clean code.',
-    skills: ['Next.js', 'TypeScript', 'Tailwind CSS', 'React', 'MongoDB Atlas', 'REST APIs'],
+    skills: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Supabase', 'MongoDB Atlas', 'REST APIs'],
     projects: [
       {
         title: 'SeeStocks',
@@ -203,6 +203,16 @@ const CATEGORIES: Category[] = [
         tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'MongoDB Atlas', 'Clerk Auth', 'REST API', 'Vercel'],
         githubUrl: 'https://github.com/ltciamichelle/SeeStocks',
         liveUrl: 'https://seestocks.vercel.app/'
+      },
+      {
+        title: 'StuntGuard',
+        role: 'Mobile-First Clinical Health Web App',
+        description: 'Stunting is often found too late. StuntGuard helps Posyandu health workers spot it early by turning a child’s height and weight into a WHO Z-Score in seconds, with clear alerts when growth starts to slow. Health workers see all children in their area in one dashboard, and caregivers can follow their child’s progress at home.',
+        image: '/StuntGuard.png',
+        tags: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Supabase', 'PostgreSQL', 'Figma', 'Google Stitch', 'Vercel', 'GitHub'],
+        team: 'Kathleen Klavinka (UI/UX), Carmen Jessalyn (Business & Product), Leticia Michelle (Fullstack Developer)',
+        githubUrl: 'https://github.com/ltciamichelle/StuntGuard',
+        liveUrl: 'https://stuntguard.vercel.app'
       },
       {
         title: 'ISS Live Tracker',
