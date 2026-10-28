@@ -277,7 +277,6 @@ function App() {
   const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
   const [activeModalActivity, setActiveModalActivity] = useState<Activity | null>(null);
   const [activeModalExperience, setActiveModalExperience] = useState<Experience | null>(null);
-  const [activityFilter, setActivityFilter] = useState<'All' | 'Bootcamp' | 'Competition'>('All');
 
   // Prevent background scroll and allow ESC key to close modal
   useEffect(() => {
@@ -403,9 +402,6 @@ function App() {
   };
 
   const selectedCategory = CATEGORIES.find((cat) => cat.id === selectedCategoryId);
-  const filteredActivities = activityFilter === 'All'
-    ? ACTIVITIES
-    : ACTIVITIES.filter((act) => act.category === activityFilter);
 
   return (
     <div className="app">
@@ -833,35 +829,11 @@ function App() {
             <div>
               <span className="section-label">GROWTH & ACHIEVEMENTS</span>
               <h2>Activities & Competitions</h2>
-              <p className="section-desc">
-                Hackathons, design championships, and specialized bootcamps where I hone my technical and design capabilities.
-              </p>
             </div>
           </div>
 
-          <div className="activities-tabs">
-            <button
-              className={`activity-tab-btn ${activityFilter === 'All' ? 'active' : ''}`}
-              onClick={() => setActivityFilter('All')}
-            >
-              <span>⚡</span> All Activities ({ACTIVITIES.length})
-            </button>
-            <button
-              className={`activity-tab-btn ${activityFilter === 'Competition' ? 'active' : ''}`}
-              onClick={() => setActivityFilter('Competition')}
-            >
-              <span>🏆</span> Competitions ({ACTIVITIES.filter((a) => a.category === 'Competition').length})
-            </button>
-            <button
-              className={`activity-tab-btn ${activityFilter === 'Bootcamp' ? 'active' : ''}`}
-              onClick={() => setActivityFilter('Bootcamp')}
-            >
-              <span>🎓</span> Bootcamps ({ACTIVITIES.filter((a) => a.category === 'Bootcamp').length})
-            </button>
-          </div>
-
           <div className="activities-grid">
-            {filteredActivities.map((activity, idx) => (
+            {ACTIVITIES.map((activity, idx) => (
               <div
                 className="activity-card"
                 key={idx}
