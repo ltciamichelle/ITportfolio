@@ -520,8 +520,8 @@ function App() {
                 Explore Projects <span className="arrow">→</span>
               </a>
               <a
-                href="/cv.pdf"
-                download="CV_Leticia_Michelle.pdf"
+                href="/CV IT_Leticia Michelle 2026.pdf"
+                download="CV IT_Leticia Michelle 2026.pdf"
                 className="btn-outline"
                 style={{ textDecoration: 'none' }}
               >
