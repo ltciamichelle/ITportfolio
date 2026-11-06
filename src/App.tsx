@@ -322,6 +322,20 @@ function App() {
   const dragStartX = useRef(0);
   const dragScrollLeft = useRef(0);
 
+  // CV Download Toast Notification
+  const [showCvToast, setShowCvToast] = useState(false);
+  const cvToastTimerRef = useRef<number | null>(null);
+
+  const handleCvDownload = () => {
+    setShowCvToast(true);
+    if (cvToastTimerRef.current) {
+      window.clearTimeout(cvToastTimerRef.current);
+    }
+    cvToastTimerRef.current = window.setTimeout(() => {
+      setShowCvToast(false);
+    }, 4000);
+  };
+
   useEffect(() => {
     let ticking = false;
 
@@ -524,6 +538,7 @@ function App() {
                 download="CV IT_Leticia Michelle 2026.pdf"
                 className="btn-outline"
                 style={{ textDecoration: 'none' }}
+                onClick={handleCvDownload}
               >
                 Download CV <span style={{ marginLeft: '4px' }}>📥</span>
               </a>
@@ -1341,6 +1356,27 @@ function App() {
           </div>
         </div>
       )}
+
+      {/* CV Download Toast Notification */}
+      <div
+        className={`cv-toast ${showCvToast ? 'visible' : ''}`}
+        role="status"
+        aria-live="polite"
+      >
+        <div className="cv-toast-icon">✓</div>
+        <div className="cv-toast-text">
+          <strong>CV Download Started</strong>
+          <span>CV IT_Leticia Michelle 2026.pdf</span>
+        </div>
+        <button
+          type="button"
+          className="cv-toast-close"
+          onClick={() => setShowCvToast(false)}
+          aria-label="Close notification"
+        >
+          ✕
+        </button>
+      </div>
 
       {/* Floating Back to Top Button */}
       <button
