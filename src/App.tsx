@@ -153,6 +153,16 @@ const EXPERIENCES: Experience[] = [
     role: 'Creative Designer Freelance',
     company: 'Sinar Mas Land',
     period: 'Mar 2026 - Sep 2026',
+    highlights: [
+      {
+        category: 'Visual Design & Campaign Materials',
+        bullets: [
+          'Delivered 50+ designs for Sinarmas Land, including social media and campaign materials.',
+          'Developed key visuals (KV) for Sinarmas Land’s marketing campaigns, keeping the look consistent across all materials.',
+          'Brainstormed ideas and worked directly with stakeholders, then turned their feedback into final designs.'
+        ]
+      }
+    ]
   }
 ];
 
@@ -162,11 +172,18 @@ const CATEGORIES: Category[] = [
     title: 'UI/UX Design',
     tag: 'UI/UX',
     icon: '🎨',
-    count: '2 Projects',
-    coverImage: '/MOODAL.jpg',
+    count: '3 Projects',
+    coverImage: '/Debtective.png',
     summary: 'Crafting intuitive user journeys, wireframes, and high-fidelity interactive prototypes designed to solve real business challenges for Indonesian MSMEs.',
     skills: ['Figma', 'UX Research', 'Maze', 'Design System', 'Agile Methodology'],
     projects: [
+      {
+        title: 'Debtective',
+        role: 'Mobile UI/UX Design',
+        description: 'Debtective is a mobile app where a friendly detective mascot named Debby helps young people check how a paylater purchase will change their monthly money before they checkout.',
+        image: '/Debtective.png',
+        tags: ['Figma', 'UX Research', 'Maze', 'Design System', 'Agile Methodology']
+      },
       {
         title: 'MOODAL',
         role: 'Mobile UI/UX Design',
@@ -311,7 +328,7 @@ function App() {
   }, [activeModalProject, activeModalActivity, activeModalExperience]);
 
   // Smooth scroll and active section states
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const progressBarRef = useRef<HTMLDivElement | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
@@ -344,8 +361,10 @@ function App() {
         window.requestAnimationFrame(() => {
           const winScroll = window.scrollY || document.documentElement.scrollTop;
           const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-          const scrolledPercent = docHeight > 0 ? (winScroll / docHeight) * 100 : 0;
-          setScrollProgress(Math.min(100, Math.max(0, scrolledPercent)));
+          const scrolledRatio = docHeight > 0 ? Math.min(1, Math.max(0, winScroll / docHeight)) : 0;
+          if (progressBarRef.current) {
+            progressBarRef.current.style.transform = `scaleX(${scrolledRatio})`;
+          }
           setIsScrolled(winScroll > 30);
           setShowBackToTop(winScroll > 320);
 
@@ -447,12 +466,10 @@ function App() {
 
       {/* Top Scroll Progress Bar */}
       <div
+        ref={progressBarRef}
         className="scroll-progress-bar"
-        style={{ transform: `scaleX(${scrollProgress / 100})` }}
-        role="progressbar"
-        aria-valuenow={Math.round(scrollProgress)}
-        aria-valuemin={0}
-        aria-valuemax={100}
+        style={{ transform: 'scaleX(0)' }}
+        aria-hidden="true"
       />
 
       {/* Sticky Floating Glass Navbar */}
@@ -547,7 +564,7 @@ function App() {
 
           <div className="hero-visual">
             <div className="profile-image-container">
-              <img src="/fotomici.png" alt="Leticia Michelle" className="profile-image" />
+              <img src="/fotomici.png" alt="Leticia Michelle" className="profile-image" fetchPriority="high" decoding="async" />
             </div>
           </div>
         </section>
@@ -604,7 +621,7 @@ function App() {
                     style={{ cursor: 'pointer' }}
                   >
                     <div className="project-image-container">
-                      <img src={project.image} alt={project.title} />
+                      <img src={project.image} alt={project.title} loading="lazy" decoding="async" />
                       <span className="tag glass-tag">{selectedCategory.tag}</span>
                     </div>
                     <div className="project-info-container">
@@ -701,7 +718,7 @@ function App() {
                   }}
                 >
                   <div className="category-image-container">
-                    <img src={category.coverImage} alt={category.title} />
+                    <img src={category.coverImage} alt={category.title} loading="lazy" decoding="async" />
                     <span className="tag glass-tag">{category.tag}</span>
                     <span className="count-tag">{category.count}</span>
                   </div>
@@ -875,7 +892,7 @@ function App() {
               >
                 {activity.image && (
                   <div className="activity-card-image-wrap">
-                    <img src={activity.image} alt={activity.title} className="activity-card-image" />
+                    <img src={activity.image} alt={activity.title} className="activity-card-image" loading="lazy" decoding="async" />
                     <span className="activity-card-image-badge">🔍 View Details</span>
                   </div>
                 )}
@@ -1003,6 +1020,7 @@ function App() {
                 src={activeModalProject.image}
                 alt={activeModalProject.title}
                 className="modal-image"
+                decoding="async"
               />
               <a
                 href={activeModalProject.image}
@@ -1146,6 +1164,8 @@ function App() {
                       src={activeModalProject.processImage}
                       alt="Process Showcase"
                       className="modal-process-image"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <a
                       href={activeModalProject.processImage}
@@ -1233,6 +1253,7 @@ function App() {
                   src={activeModalActivity.image}
                   alt={activeModalActivity.title}
                   className="modal-image"
+                  decoding="async"
                 />
               </div>
             )}
