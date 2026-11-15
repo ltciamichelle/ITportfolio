@@ -448,10 +448,26 @@ function App() {
 
   return (
     <div className="app">
-      {/* Background Ambient Glows & Shooting Stars System */}
+      {/* Background Ambient Glows, Glassy Pixels & Shooting Stars System */}
       <div className="bg-gradient-base" aria-hidden="true"></div>
       <div className="bg-hero-glow" aria-hidden="true"></div>
       <div className="bg-corner-glow" aria-hidden="true"></div>
+      <div className="bg-glassy-pixels" aria-hidden="true">
+        <span className="glass-pixel gp-1"></span>
+        <span className="glass-pixel gp-2"></span>
+        <span className="glass-pixel gp-3"></span>
+        <span className="glass-pixel gp-4"></span>
+        <span className="glass-pixel gp-5"></span>
+        <span className="glass-pixel gp-6"></span>
+        <span className="glass-pixel gp-7"></span>
+        <span className="glass-pixel gp-8"></span>
+        <span className="glass-pixel gp-9"></span>
+        <span className="glass-pixel gp-10"></span>
+        <span className="glass-pixel gp-11"></span>
+        <span className="glass-pixel gp-12"></span>
+        <span className="glass-pixel gp-13"></span>
+        <span className="glass-pixel gp-14"></span>
+      </div>
       <div className="static-stars-layer" aria-hidden="true"></div>
       <div className="bg-stars-layer" aria-hidden="true">
         <div className="shooting-star"></div>
@@ -564,7 +580,7 @@ function App() {
 
           <div className="hero-visual">
             <div className="profile-image-container">
-              <img src="/fotomici.png" alt="Leticia Michelle" className="profile-image" fetchPriority="high" decoding="async" />
+              <img src="/fotomici.png?v=2" alt="Leticia Michelle" className="profile-image" fetchPriority="high" decoding="async" />
             </div>
           </div>
         </section>
