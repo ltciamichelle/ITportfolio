@@ -69,6 +69,54 @@ interface Activity {
   team?: string;
 }
 
+interface Certification {
+  title: string;
+  issuer: string;
+  platform: string;
+  date: string;
+  verificationCode: string;
+  image: string;
+  description: string;
+  tasks: string[];
+  tags: string[];
+}
+
+const CERTIFICATIONS: Certification[] = [
+  {
+    title: 'Technology Consulting Simulation',
+    issuer: 'PwC',
+    platform: 'Forage',
+    date: 'Nov 2026',
+    verificationCode: '6aeb098243bce97110336585',
+    image: '/PWC_completion_certificate-1.png',
+    description: 'Completed practical technology consulting tasks simulating client discovery, requirement gathering, strategic roadmap planning, and executive reporting.',
+    tasks: [
+      'Create an Interview Guide',
+      'User Story for Business Requirements',
+      'Build a Roadmap',
+      'Executive Summary'
+    ],
+    tags: ['Technology Consulting', 'Business Requirements', 'User Stories', 'Strategic Roadmap', 'Executive Summary']
+  },
+  {
+    title: 'EY Technology Risk Virtual Job Simulation',
+    issuer: 'EY',
+    platform: 'Forage',
+    date: 'Oct 2026',
+    verificationCode: '6ad9f2555272042ebece44d1',
+    image: '/EY Technology Risk Ceritificate of Completion.png',
+    description: 'Completed practical tasks in technology risk assessment, stakeholder inquiry, IT general controls evaluation, and risk reporting.',
+    tasks: [
+      'Basics of Technology Risk',
+      'Interacting with the business',
+      'Probing questions',
+      'Teamwork',
+      'Conclusion'
+    ],
+    tags: ['Technology Risk', 'IT Audit & Controls', 'Risk Assessment', 'Business Inquiry', 'Stakeholder Communication']
+  }
+];
+
 const ACTIVITIES: Activity[] = [
   {
     title: 'Arthavisi Business Case Competition',
@@ -304,6 +352,8 @@ function App() {
   const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
   const [activeModalActivity, setActiveModalActivity] = useState<Activity | null>(null);
   const [activeModalExperience, setActiveModalExperience] = useState<Experience | null>(null);
+  const [activeModalCertification, setActiveModalCertification] = useState<Certification | null>(null);
+  const [activeCertIndex, setActiveCertIndex] = useState(0);
 
   // Prevent background scroll and allow ESC key to close modal
   useEffect(() => {
@@ -312,10 +362,11 @@ function App() {
         setActiveModalProject(null);
         setActiveModalActivity(null);
         setActiveModalExperience(null);
+        setActiveModalCertification(null);
       }
     };
 
-    if (activeModalProject || activeModalActivity || activeModalExperience) {
+    if (activeModalProject || activeModalActivity || activeModalExperience || activeModalCertification) {
       document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', handleKeyDown);
     } else {
@@ -325,7 +376,7 @@ function App() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [activeModalProject, activeModalActivity, activeModalExperience]);
+  }, [activeModalProject, activeModalActivity, activeModalExperience, activeModalCertification]);
 
   // Smooth scroll and active section states
   const progressBarRef = useRef<HTMLDivElement | null>(null);
@@ -338,6 +389,34 @@ function App() {
   const [isDragging, setIsDragging] = useState(false);
   const dragStartX = useRef(0);
   const dragScrollLeft = useRef(0);
+
+  // Certification slider touch swipe support
+  const certTouchStartX = useRef<number | null>(null);
+
+  const handlePrevCert = () => {
+    setActiveCertIndex((prev) => (prev === 0 ? CERTIFICATIONS.length - 1 : prev - 1));
+  };
+
+  const handleNextCert = () => {
+    setActiveCertIndex((prev) => (prev === CERTIFICATIONS.length - 1 ? 0 : prev + 1));
+  };
+
+  const handleCertTouchStart = (e: React.TouchEvent) => {
+    certTouchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleCertTouchEnd = (e: React.TouchEvent) => {
+    if (certTouchStartX.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - certTouchStartX.current;
+    if (Math.abs(deltaX) > 45) {
+      if (deltaX < 0) {
+        handleNextCert();
+      } else {
+        handlePrevCert();
+      }
+    }
+    certTouchStartX.current = null;
+  };
 
   // CV Download Toast Notification
   const [showCvToast, setShowCvToast] = useState(false);
@@ -369,7 +448,7 @@ function App() {
           setShowBackToTop(winScroll > 320);
 
           // Detect active section based on scroll offset
-          const sections = ['about', 'categories', 'experience', 'activities', 'contact'];
+          const sections = ['about', 'categories', 'experience', 'activities', 'certifications', 'contact'];
           const triggerPoint = winScroll + 160;
           for (let i = sections.length - 1; i >= 0; i--) {
             const el = document.getElementById(sections[i]);
@@ -522,6 +601,13 @@ function App() {
                 Activities
               </a>
               <a
+                href="#certifications"
+                className={activeSection === 'certifications' ? 'active' : ''}
+                onClick={(e) => handleNavClick(e, 'certifications')}
+              >
+                Certifications
+              </a>
+              <a
                 href="#contact"
                 className={activeSection === 'contact' ? 'active' : ''}
                 onClick={(e) => handleNavClick(e, 'contact')}
@@ -664,19 +750,17 @@ function App() {
                         </ul>
                       )}
                       <div className="project-tags">
-                        {project.tags.map((tag, tIdx) => (
-                          <span key={tIdx} className="skill-pill">{tag}</span>
+                        {project.tags.map((t, tIdx) => (
+                          <span key={tIdx} className="skill-pill">{t}</span>
                         ))}
                       </div>
-                      <div className="project-actions">
+
+                      <div className="project-actions" onClick={(e) => e.stopPropagation()}>
                         <button
                           className="project-explore-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setActiveModalProject(project);
-                          }}
+                          onClick={() => setActiveModalProject(project)}
                         >
-                          View Details <span className="arrow">↗</span>
+                          🔍 Details
                         </button>
                         {project.colabUrl && (
                           <a
@@ -684,9 +768,8 @@ function App() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="project-action-link primary"
-                            onClick={(e) => e.stopPropagation()}
                           >
-                            Colab Notebook <span className="arrow">↗</span>
+                            Colab ↗
                           </a>
                         )}
                         {project.liveUrl && (
@@ -695,9 +778,8 @@ function App() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="project-action-link primary"
-                            onClick={(e) => e.stopPropagation()}
                           >
-                            Live Demo <span className="arrow">↗</span>
+                            Live App ↗
                           </a>
                         )}
                         {project.githubUrl && (
@@ -706,9 +788,8 @@ function App() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="project-action-link github"
-                            onClick={(e) => e.stopPropagation()}
                           >
-                            GitHub <span className="arrow">↗</span>
+                            GitHub ↗
                           </a>
                         )}
                       </div>
@@ -718,7 +799,7 @@ function App() {
               </div>
             </div>
           ) : (
-            /* Main Categories Grid */
+            /* Default View: 3 Main Category Cards */
             <div className="categories-grid">
               {CATEGORIES.map((category) => (
                 <div
@@ -738,13 +819,11 @@ function App() {
                     <span className="tag glass-tag">{category.tag}</span>
                     <span className="count-tag">{category.count}</span>
                   </div>
-
                   <div className="category-content">
                     <div className="category-title-row">
                       <span className="category-icon">{category.icon}</span>
                       <h3>{category.title}</h3>
                     </div>
-
                     <p className="category-summary">{category.summary}</p>
 
                     <div className="category-skills-wrap">
@@ -955,7 +1034,144 @@ function App() {
           </div>
         </section>
 
+        {/* Certifications Slider Section */}
+        <section className="certifications" id="certifications">
+          <div className="work-header">
+            <div>
+              <span className="section-label">CREDENTIALS & SIMULATIONS</span>
+              <h2>Certifications</h2>
+              <p className="section-desc">
+                Industry job simulations and professional credentials in technology consulting and technology risk.
+              </p>
+            </div>
+            <div className="cert-slider-controls">
+              <span className="cert-slide-counter">
+                0{activeCertIndex + 1} <span className="slash">/</span> 0{CERTIFICATIONS.length}
+              </span>
+              <button
+                type="button"
+                className="timeline-arrow-btn"
+                onClick={handlePrevCert}
+                aria-label="Previous certification"
+                title="Previous certification"
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                className="timeline-arrow-btn"
+                onClick={handleNextCert}
+                aria-label="Next certification"
+                title="Next certification"
+              >
+                →
+              </button>
+            </div>
+          </div>
 
+          <div
+            className="cert-slider-viewport"
+            onTouchStart={handleCertTouchStart}
+            onTouchEnd={handleCertTouchEnd}
+          >
+            <div
+              className="cert-slider-track"
+              style={{ transform: `translateX(-${activeCertIndex * 100}%)` }}
+            >
+              {CERTIFICATIONS.map((cert, idx) => (
+                <div className="cert-slide" key={idx} aria-hidden={activeCertIndex !== idx}>
+                  <div
+                    className="cert-slide-card"
+                    onClick={() => setActiveModalCertification(cert)}
+                    role="button"
+                    tabIndex={activeCertIndex === idx ? 0 : -1}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setActiveModalCertification(cert);
+                      }
+                    }}
+                  >
+                    <div className="cert-image-preview">
+                      <img
+                        src={cert.image}
+                        alt={`${cert.issuer} - ${cert.title}`}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <span className="activity-card-image-badge">🔍 View Certificate</span>
+                    </div>
+
+                    <div className="cert-info">
+                      <div className="cert-badges-row">
+                        <span className="cert-issuer-pill">
+                          🏛️ {cert.issuer} · {cert.platform}
+                        </span>
+                        <span className="timeline-date-h" style={{ marginBottom: 0 }}>
+                          {cert.date}
+                        </span>
+                      </div>
+
+                      <h3 className="cert-title">{cert.title}</h3>
+                      <p className="cert-description">{cert.description}</p>
+
+                      <div className="cert-tasks-box">
+                        <span className="skills-label" style={{ marginBottom: '6px' }}>
+                          Practical Tasks Completed:
+                        </span>
+                        <ul className="cert-tasks-list">
+                          {cert.tasks.map((task, tIdx) => (
+                            <li key={tIdx}>{task}</li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="cert-tags">
+                        {cert.tags.map((tag, tagIdx) => (
+                          <span key={tagIdx} className="skill-pill">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="cert-card-footer">
+                        <span className="cert-verify-code">
+                          Verification ID: {cert.verificationCode}
+                        </span>
+                        <button
+                          type="button"
+                          className="project-explore-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveModalCertification(cert);
+                          }}
+                        >
+                          View Full Certificate <span className="arrow">↗</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="cert-slider-dots" role="tablist" aria-label="Certification slides">
+            {CERTIFICATIONS.map((cert, idx) => (
+              <button
+                key={idx}
+                type="button"
+                role="tab"
+                aria-selected={activeCertIndex === idx}
+                aria-label={`Show ${cert.issuer} ${cert.title}`}
+                className={`cert-dot ${activeCertIndex === idx ? 'active' : ''}`}
+                onClick={() => setActiveCertIndex(idx)}
+              >
+                <span className="cert-dot-label">{cert.issuer}</span>
+              </button>
+            ))}
+          </div>
+        </section>
 
         {/* Footer */}
         <footer className="footer" id="contact">
@@ -1065,9 +1281,9 @@ function App() {
                       href={activeModalProject.colabUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="project-action-link primary modal-action-btn"
+                      className="btn-primary modal-action-btn"
                     >
-                      <span>📓</span> Google Colab Notebook <span className="arrow">↗</span>
+                      Open Google Colab ↗
                     </a>
                   )}
                   {activeModalProject.liveUrl && (
@@ -1075,9 +1291,9 @@ function App() {
                       href={activeModalProject.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="project-action-link primary modal-action-btn"
+                      className="btn-primary modal-action-btn"
                     >
-                      <span>🌐</span> {activeModalProject.title === 'ISS Live Tracker' ? 'See the Tracker' : 'Live Demo'} <span className="arrow">↗</span>
+                      Launch Live Website ↗
                     </a>
                   )}
                   {activeModalProject.githubUrl && (
@@ -1087,7 +1303,7 @@ function App() {
                       rel="noopener noreferrer"
                       className="modal-action-btn github"
                     >
-                      <span>💻</span> GitHub Repository <span className="arrow">↗</span>
+                      View Source on GitHub ↗
                     </a>
                   )}
                 </div>
@@ -1097,7 +1313,7 @@ function App() {
                 <div className="modal-team-box">
                   <span className="team-icon">👥</span>
                   <div>
-                    <strong>Project Team:</strong>
+                    <strong>Project Team</strong>
                     <p>{activeModalProject.team}</p>
                   </div>
                 </div>
@@ -1108,7 +1324,7 @@ function App() {
               {activeModalProject.businessQuestion && (
                 <div className="modal-section-card business-question-card">
                   <div className="section-card-header">
-                    <span className="section-card-icon">🎯</span>
+                    <span className="section-card-icon">❓</span>
                     <h4>Business Question</h4>
                   </div>
                   <p>{activeModalProject.businessQuestion}</p>
@@ -1121,7 +1337,7 @@ function App() {
                     <span className="section-card-icon">💡</span>
                     <h4>Key Findings</h4>
                   </div>
-                  <ul className="activity-bullets" style={{ margin: '6px 0 2px 0' }}>
+                  <ul className="activity-bullets" style={{ margin: '8px 0 0 0' }}>
                     {activeModalProject.keyFindings.map((finding, idx) => (
                       <li key={idx}>{finding}</li>
                     ))}
@@ -1129,18 +1345,10 @@ function App() {
                 </div>
               )}
 
-              {!activeModalProject.keyFindings && activeModalProject.bullets && (
-                <ul className="activity-bullets" style={{ margin: '12px 0 16px 0' }}>
-                  {activeModalProject.bullets.map((bullet, idx) => (
-                    <li key={idx}>{bullet}</li>
-                  ))}
-                </ul>
-              )}
-
               {activeModalProject.recommendation && (
                 <div className="modal-section-card recommendation-card">
                   <div className="section-card-header">
-                    <span className="section-card-icon">🚀</span>
+                    <span className="section-card-icon">🎯</span>
                     <h4>Strategic Recommendation</h4>
                   </div>
                   <p>{activeModalProject.recommendation}</p>
@@ -1389,6 +1597,87 @@ function App() {
                   ))}
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Certification Detail Modal */}
+      {activeModalCertification && (
+        <div
+          className="modal-backdrop"
+          onClick={() => setActiveModalCertification(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="modal-content activity-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="modal-close-btn"
+              onClick={() => setActiveModalCertification(null)}
+              aria-label="Close Modal"
+            >
+              ✕
+            </button>
+
+            <div className="modal-image-wrap" style={{ position: 'relative' }}>
+              <img
+                src={activeModalCertification.image}
+                alt={`${activeModalCertification.issuer} - ${activeModalCertification.title}`}
+                className="modal-image"
+                decoding="async"
+              />
+              <a
+                href={activeModalCertification.image}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="activity-card-image-badge"
+                style={{ textDecoration: 'none' }}
+                title="Open full resolution certificate in new tab"
+              >
+                🔍 Open Full Size
+              </a>
+            </div>
+
+            <div className="modal-body">
+              <div className="modal-title-row">
+                <div style={{ paddingRight: '40px' }}>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '8px' }}>
+                    <span className="modal-badge">
+                      {activeModalCertification.issuer} · {activeModalCertification.platform}
+                    </span>
+                    <span className="activity-award-pill" style={{ alignSelf: 'center' }}>
+                      📜 Certificate of Completion
+                    </span>
+                  </div>
+                  <h2>{activeModalCertification.title}</h2>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '4px' }}>
+                    📅 Issued {activeModalCertification.date} • 🔑 Verification ID: {activeModalCertification.verificationCode}
+                  </p>
+                </div>
+              </div>
+
+              <p className="modal-desc">{activeModalCertification.description}</p>
+
+              <div className="modal-section-card">
+                <div className="section-card-header">
+                  <span className="section-card-icon">✅</span>
+                  <h4>Practical Tasks Completed</h4>
+                </div>
+                <ul className="activity-bullets" style={{ margin: '10px 0 0 0' }}>
+                  {activeModalCertification.tasks.map((task, idx) => (
+                    <li key={idx}>{task}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="modal-skills" style={{ marginTop: '4px' }}>
+                <span style={{ alignSelf: 'center', marginRight: '6px', fontSize: '0.84rem', fontWeight: 600, color: 'var(--text-muted)' }}>
+                  Skills & Focus:
+                </span>
+                {activeModalCertification.tags.map((tag, idx) => (
+                  <span key={idx} className="skill-pill">{tag}</span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
