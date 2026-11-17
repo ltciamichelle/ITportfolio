@@ -353,7 +353,6 @@ function App() {
   const [activeModalActivity, setActiveModalActivity] = useState<Activity | null>(null);
   const [activeModalExperience, setActiveModalExperience] = useState<Experience | null>(null);
   const [activeModalCertification, setActiveModalCertification] = useState<Certification | null>(null);
-  const [activeCertIndex, setActiveCertIndex] = useState(0);
 
   // Prevent background scroll and allow ESC key to close modal
   useEffect(() => {
@@ -390,32 +389,29 @@ function App() {
   const dragStartX = useRef(0);
   const dragScrollLeft = useRef(0);
 
-  // Certification slider touch swipe support
-  const certTouchStartX = useRef<number | null>(null);
+  // Certification slider horizontal drag
+  const certSliderRef = useRef<HTMLDivElement | null>(null);
+  const [isCertDragging, setIsCertDragging] = useState(false);
+  const certDragStartX = useRef(0);
+  const certDragScrollLeft = useRef(0);
 
-  const handlePrevCert = () => {
-    setActiveCertIndex((prev) => (prev === 0 ? CERTIFICATIONS.length - 1 : prev - 1));
+  const handleCertMouseDown = (e: React.MouseEvent) => {
+    if (!certSliderRef.current) return;
+    setIsCertDragging(true);
+    certDragStartX.current = e.pageX - certSliderRef.current.offsetLeft;
+    certDragScrollLeft.current = certSliderRef.current.scrollLeft;
   };
 
-  const handleNextCert = () => {
-    setActiveCertIndex((prev) => (prev === CERTIFICATIONS.length - 1 ? 0 : prev + 1));
+  const handleCertMouseMove = (e: React.MouseEvent) => {
+    if (!isCertDragging || !certSliderRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - certSliderRef.current.offsetLeft;
+    const walk = (x - certDragStartX.current) * 1.5;
+    certSliderRef.current.scrollLeft = certDragScrollLeft.current - walk;
   };
 
-  const handleCertTouchStart = (e: React.TouchEvent) => {
-    certTouchStartX.current = e.touches[0].clientX;
-  };
-
-  const handleCertTouchEnd = (e: React.TouchEvent) => {
-    if (certTouchStartX.current === null) return;
-    const deltaX = e.changedTouches[0].clientX - certTouchStartX.current;
-    if (Math.abs(deltaX) > 45) {
-      if (deltaX < 0) {
-        handleNextCert();
-      } else {
-        handlePrevCert();
-      }
-    }
-    certTouchStartX.current = null;
+  const handleCertMouseUpOrLeave = () => {
+    setIsCertDragging(false);
   };
 
   // CV Download Toast Notification
@@ -491,15 +487,6 @@ function App() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
-    });
-  };
-
-  const scrollTimeline = (direction: 'left' | 'right') => {
-    if (!timelineRef.current) return;
-    const scrollAmount = 400;
-    timelineRef.current.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
       behavior: 'smooth'
     });
   };
@@ -853,24 +840,6 @@ function App() {
               <span className="section-label">CAREER JOURNEY</span>
               <h2>Work Experience</h2>
             </div>
-            <div className="timeline-nav-group">
-              <button
-                className="timeline-arrow-btn"
-                onClick={() => scrollTimeline('left')}
-                aria-label="Scroll experience left"
-                title="Scroll left"
-              >
-                ←
-              </button>
-              <button
-                className="timeline-arrow-btn"
-                onClick={() => scrollTimeline('right')}
-                aria-label="Scroll experience right"
-                title="Scroll right"
-              >
-                →
-              </button>
-            </div>
           </div>
 
           <div
@@ -1044,47 +1013,24 @@ function App() {
                 Industry job simulations and professional credentials in technology consulting and technology risk.
               </p>
             </div>
-            <div className="cert-slider-controls">
-              <span className="cert-slide-counter">
-                0{activeCertIndex + 1} <span className="slash">/</span> 0{CERTIFICATIONS.length}
-              </span>
-              <button
-                type="button"
-                className="timeline-arrow-btn"
-                onClick={handlePrevCert}
-                aria-label="Previous certification"
-                title="Previous certification"
-              >
-                ←
-              </button>
-              <button
-                type="button"
-                className="timeline-arrow-btn"
-                onClick={handleNextCert}
-                aria-label="Next certification"
-                title="Next certification"
-              >
-                →
-              </button>
-            </div>
           </div>
 
           <div
-            className="cert-slider-viewport"
-            onTouchStart={handleCertTouchStart}
-            onTouchEnd={handleCertTouchEnd}
+            className={`cert-slider-viewport ${isCertDragging ? 'is-dragging' : ''}`}
+            ref={certSliderRef}
+            onMouseDown={handleCertMouseDown}
+            onMouseMove={handleCertMouseMove}
+            onMouseUp={handleCertMouseUpOrLeave}
+            onMouseLeave={handleCertMouseUpOrLeave}
           >
-            <div
-              className="cert-slider-track"
-              style={{ transform: `translateX(-${activeCertIndex * 100}%)` }}
-            >
+            <div className="cert-slider-track">
               {CERTIFICATIONS.map((cert, idx) => (
-                <div className="cert-slide" key={idx} aria-hidden={activeCertIndex !== idx}>
+                <div className="cert-slide" key={idx}>
                   <div
                     className="cert-slide-card"
                     onClick={() => setActiveModalCertification(cert)}
                     role="button"
-                    tabIndex={activeCertIndex === idx ? 0 : -1}
+                    tabIndex={0}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
@@ -1154,22 +1100,6 @@ function App() {
                 </div>
               ))}
             </div>
-          </div>
-
-          <div className="cert-slider-dots" role="tablist" aria-label="Certification slides">
-            {CERTIFICATIONS.map((cert, idx) => (
-              <button
-                key={idx}
-                type="button"
-                role="tab"
-                aria-selected={activeCertIndex === idx}
-                aria-label={`Show ${cert.issuer} ${cert.title}`}
-                className={`cert-dot ${activeCertIndex === idx ? 'active' : ''}`}
-                onClick={() => setActiveCertIndex(idx)}
-              >
-                <span className="cert-dot-label">{cert.issuer}</span>
-              </button>
-            ))}
           </div>
         </section>
 
